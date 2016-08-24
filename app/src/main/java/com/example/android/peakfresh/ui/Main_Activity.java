@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.example.android.peakfresh.R;
 
-public class MainActivity extends AppCompatActivity {
+public class Main_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
