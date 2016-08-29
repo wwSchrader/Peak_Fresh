@@ -9,10 +9,10 @@ import net.simonvt.schematic.annotation.TableEndpoint;
  * Created by Warren on 8/23/2016.
  */
 
-@net.simonvt.schematic.annotation.ContentProvider(authority = ContentProvider.AUTHORITY, database = Database.class)
-public final class ContentProvider {
+@net.simonvt.schematic.annotation.ContentProvider(authority = ProductContentProvider.AUTHORITY, database = Database.class)
+public final class ProductContentProvider {
 
-    public static final String AUTHORITY = "com.example.android.peakfresh.ContentProvider";
+    public static final String AUTHORITY = "com.example.android.peakfresh.ProductContentProvider";
 
     @TableEndpoint(table = Database.PRODUCTS) public static class Products {
 
