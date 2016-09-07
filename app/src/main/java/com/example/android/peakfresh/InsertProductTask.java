@@ -46,6 +46,8 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
                 builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "10/13/16");
                 batchOperations.add(builder.build());
 
+                builder = ContentProviderOperation
+                        .newInsert(ProductContentProvider.Products.PRODUCTS_URI);
                 builder.withValue(ProductColumns.PRODUCT_NAME, "Milk");
                 builder.withValue(ProductColumns.PRODUCT_CATEGORY, "Dairy");
                 builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "9/16/16");
