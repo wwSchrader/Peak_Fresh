@@ -13,7 +13,7 @@ import net.simonvt.schematic.annotation.TableEndpoint;
 @net.simonvt.schematic.annotation.ContentProvider(authority = ProductContentProvider.AUTHORITY, database = Database.class)
 public final class ProductContentProvider {
 
-    public static final String AUTHORITY = "com.example.android.peakfresh.ProductContentProvider";
+    public static final String AUTHORITY = "com.example.android.peakfresh.data.ProductContentProvider";
 
     static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 

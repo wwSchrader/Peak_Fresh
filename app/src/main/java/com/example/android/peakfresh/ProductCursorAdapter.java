@@ -80,7 +80,7 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
+//        robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
         View productView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_listing, parent, false);
         return new ViewHolder(productView);

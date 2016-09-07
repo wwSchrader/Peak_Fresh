@@ -18,7 +18,7 @@ public interface ProductColumns {
 
     @DataType(DataType.Type.TEXT) @NotNull String PRODUCT_CATEGORY = "product_category";
 
-    @DataType(DataType.Type.TEXT) @NotNull String PRODUCT_ICON = "product_icon";
+    @DataType(DataType.Type.TEXT) String PRODUCT_ICON = "product_icon";
 
 
 }

@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.android.peakfresh.data.ProductColumns;
+
 /**
  * Created by Warren on 8/29/2016.
  * Credit to skyfishjy gist:
@@ -77,7 +79,7 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
             if (mDataSetObserver != null){
                 mCursor.registerDataSetObserver(mDataSetObserver);
             }
-            rowIdColumn = newCursor.getColumnIndexOrThrow("_id");
+            rowIdColumn = newCursor.getColumnIndexOrThrow(ProductColumns._ID);
             dataIsValid = true;
             notifyDataSetChanged();
         }else{
