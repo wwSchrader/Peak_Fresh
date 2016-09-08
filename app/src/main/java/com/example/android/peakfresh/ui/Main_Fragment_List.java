@@ -1,6 +1,7 @@
 package com.example.android.peakfresh.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import com.example.android.peakfresh.InsertProductTask;
 import com.example.android.peakfresh.ProductCursorAdapter;
 import com.example.android.peakfresh.R;
+import com.example.android.peakfresh.RecyclerViewItemClickListener;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperCallback;
@@ -60,6 +62,18 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         mCursorAdapter = new ProductCursorAdapter(mContext, null);
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(),
+                new RecyclerViewItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        Cursor c = mCursorAdapter.getCursor();
+                        c.moveToPosition(position);
+                        int productId = c.getInt(c.getColumnIndex(ProductColumns._ID));
+                        Intent intent = new Intent(getContext(), Detail_Activity.class);
+                        intent.putExtra("product_Id", productId);
+                        startActivity(intent);
+                    }
+                }));
         mRecyclerView.setAdapter(mCursorAdapter);
 
         ItemTouchHelper.Callback callback = new ProductTouchHelperCallback(mCursorAdapter);
