@@ -13,7 +13,7 @@ public class Main_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Checking if activity is using fragment container
-        if (findViewById(R.id.fragement_main_container) != null) {
+        if (findViewById(R.id.fragment_main_container) != null) {
 
             //if restoring from a previous state
             if (savedInstanceState != null) {
@@ -25,7 +25,7 @@ public class Main_Activity extends AppCompatActivity {
 
             //add fragment to fragment_main_container layout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragement_main_container, mainFragmentList).commit();
+                    .add(R.id.fragment_main_container, mainFragmentList).commit();
         }
 
 
