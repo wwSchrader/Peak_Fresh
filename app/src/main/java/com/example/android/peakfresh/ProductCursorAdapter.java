@@ -5,12 +5,14 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperAdapter;
@@ -74,8 +76,15 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
     public void onBindViewHolder(ProductCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
         viewHolder.productName.setText(cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_NAME)));
         viewHolder.productExpirationDate.setText(cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
-        //TODO: Will need setup to handle images through Glide
-        viewHolder.productIcon.setImageResource(cursor.getInt(cursor.getColumnIndex(ProductColumns.PRODUCT_ICON)));
+
+        //get string path and converts into int resource id
+        int resourceId = cursor.getInt(cursor.getColumnIndex(ProductColumns.PRODUCT_ICON));
+        Log.v("BindView", " " + resourceId);
+        Glide.with(mContext)
+                .load(resourceId)
+                .placeholder(R.mipmap.ic_launcher)
+                .fitCenter()
+                .into(viewHolder.productIcon);
     }
 
     @Override
