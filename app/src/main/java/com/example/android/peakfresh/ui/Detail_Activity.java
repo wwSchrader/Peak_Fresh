@@ -19,9 +19,10 @@ public class Detail_Activity extends AppCompatActivity {
 
 
             Bundle arguments = new Bundle();
-            //Todo: Set info to pass to fragment
+            arguments.putInt(Detail_Fragment.PRODUCT_ID_KEY, getIntent().getIntExtra(Detail_Fragment.PRODUCT_ID_KEY, 0));
 
             Detail_Fragment detail_fragment = new Detail_Fragment();
+            detail_fragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_detail_container, detail_fragment)

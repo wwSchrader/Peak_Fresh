@@ -27,7 +27,8 @@
     <Button
         android:id="@+id/add_to_calendar_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/calendar_button"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,10 +38,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <Spinner
-            android:id="@+id/category_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <!--<Spinner-->
+            <!--android:id="@+id/category_spinner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
     </LinearLayout>
 
 </LinearLayout>

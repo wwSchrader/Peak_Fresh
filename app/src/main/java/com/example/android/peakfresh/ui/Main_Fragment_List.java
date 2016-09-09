@@ -70,7 +70,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
                         c.moveToPosition(position);
                         int productId = c.getInt(c.getColumnIndex(ProductColumns._ID));
                         Intent intent = new Intent(getContext(), Detail_Activity.class);
-                        intent.putExtra("product_Id", productId);
+                        intent.putExtra(Detail_Fragment.PRODUCT_ID_KEY, productId);
                         startActivity(intent);
                     }
                 }));
