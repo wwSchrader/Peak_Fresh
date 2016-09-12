@@ -30,13 +30,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.peakfresh.R;
+import com.example.android.peakfresh.Utility;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Warren on 9/8/2016.
@@ -51,17 +50,24 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private int mProduct_Id;
     ImageView mImageView;
     TextView mProduct_title, mExpirationSummary, mExpirationDate;
-    Button mCalendarButton, mCameraButton;
+    Button mCalendarButton, mCameraButton, mTitleButton, mDateButton;
     Spinner mCategorySpinner;
     private static String[] mProduct_ID_Array;
     private final static int LOADER_ID = 1;
     public final static String PRODUCT_ID_KEY = "Product_Id";
+    static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
     private String mCurrentPhotoPath;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        super.onActivityCreated(savedInstanceState);
+        //restore photo image path
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString(CURRENT_PHOTO_PATH) != null){
+                mCurrentPhotoPath = savedInstanceState.getString(CURRENT_PHOTO_PATH);
+            }
+        }
     }
 
     @Nullable
@@ -77,7 +83,9 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         mImageView = (ImageView) rootView.findViewById(R.id.product_icon_detail);
         mProduct_title = (TextView) rootView.findViewById(R.id.product_title_detail);
+        mTitleButton = (Button) rootView.findViewById(R.id.product_title_button);
         mExpirationDate = (TextView) rootView.findViewById(R.id.product_expiration_date_detail);
+        mDateButton = (Button) rootView.findViewById(R.id.expiration_date_button);
         mExpirationSummary = (TextView) rootView.findViewById(R.id.expiration_summary);
         mCameraButton = (Button) rootView.findViewById(R.id.camera_button);
         mCameraButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +143,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }
 
             try {
-                photoFile = createImageFile();
+                photoFile = Utility.createImageFile(getContext());
+                mCurrentPhotoPath = photoFile.getAbsolutePath();
             } catch (IOException ex){
                 Log.e("createImageFile", ex.getMessage());
             }
@@ -148,26 +157,12 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
 
     private void setPic() {
         // Get the dimensions of the View
-        int targetW = mImageView.getWidth();
-        int targetH = mImageView.getHeight();
+        int targetW = 1000;
+        int targetH = 1000;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -197,6 +192,15 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //save image filepath if needed
+        if (mCurrentPhotoPath != null) {
+            outState.putString(CURRENT_PHOTO_PATH, mCurrentPhotoPath);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (mProduct_Id != 0) {
             return new CursorLoader(
@@ -220,7 +224,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
 
             Glide.with(getContext())
-                    .load(data.getInt(data.getColumnIndex(ProductColumns.PRODUCT_ICON)))
+                    .load(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_ICON)))
                     .placeholder(R.mipmap.ic_launcher)
                     .fitCenter()
                     .into(mImageView);

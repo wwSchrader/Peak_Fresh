@@ -78,10 +78,10 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
         viewHolder.productExpirationDate.setText(cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
 
         //get string path and converts into int resource id
-        int resourceId = cursor.getInt(cursor.getColumnIndex(ProductColumns.PRODUCT_ICON));
-        Log.v("BindView", " " + resourceId);
+        String photoUri = cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_ICON));
+        Log.v("BindView", " " + photoUri);
         Glide.with(mContext)
-                .load(resourceId)
+                .load(photoUri)
                 .placeholder(R.mipmap.ic_launcher)
                 .fitCenter()
                 .into(viewHolder.productIcon);

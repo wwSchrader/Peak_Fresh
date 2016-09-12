@@ -44,8 +44,8 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
                 builder.withValue(ProductColumns.PRODUCT_NAME, "Broccoli");
                 builder.withValue(ProductColumns.PRODUCT_CATEGORY, "Produce");
                 builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "10/13/16");
-                //set drawable theme to resolve deprecation
-                builder.withValue(ProductColumns.PRODUCT_ICON, R.drawable.broccoli);
+                builder.withValue(ProductColumns.PRODUCT_ICON,
+                        Utility.resourceToUri(mContext, R.drawable.broccoli).toString());
                 batchOperations.add(builder.build());
 
                 builder = ContentProviderOperation
@@ -53,7 +53,8 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
                 builder.withValue(ProductColumns.PRODUCT_NAME, "Milk");
                 builder.withValue(ProductColumns.PRODUCT_CATEGORY, "Dairy");
                 builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "9/16/16");
-                builder.withValue(ProductColumns.PRODUCT_ICON, R.drawable.milk);
+                builder.withValue(ProductColumns.PRODUCT_ICON,
+                        Utility.resourceToUri(mContext, R.drawable.milk).toString());
                 batchOperations.add(builder.build());
 
                 try {

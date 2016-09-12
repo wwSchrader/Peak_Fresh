@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/product_icon_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
@@ -20,6 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/product_title_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title Button"/>
+
     <TextView
         android:id="@+id/expiration_summary"
         android:layout_width="wrap_content"
@@ -29,6 +35,12 @@
         android:id="@+id/product_expiration_date_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/expiration_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Expiration Button"/>
 
     <Button
         android:id="@+id/add_to_calendar_button"
