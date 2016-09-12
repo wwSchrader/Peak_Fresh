@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.peakfresh.R;
+import com.example.android.peakfresh.UpdateProductTask;
 import com.example.android.peakfresh.Utility;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
@@ -181,6 +182,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
+
+
     }
 
     private void galleryAddPic() {
@@ -189,6 +192,10 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         getContext().sendBroadcast(mediaScanIntent);
+
+        UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
+                contentUri.toString(), ProductColumns.PRODUCT_ICON);
+        updateProductTask.execute();
     }
 
     @Override
