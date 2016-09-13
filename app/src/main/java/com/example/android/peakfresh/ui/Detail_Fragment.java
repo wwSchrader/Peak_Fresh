@@ -2,6 +2,7 @@ package com.example.android.peakfresh.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,11 +15,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.UpdateProductTask;
@@ -47,7 +51,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             ProductColumns.PRODUCT_EXPIRATION_DATE};
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
     private static final int MY_REQUEST_CODE = 2;
-    private Detail_Fragment mContext;
+    private Context mContext;
     private int mProduct_Id;
     ImageView mImageView;
     TextView mProduct_title, mExpirationSummary, mExpirationDate;
@@ -62,7 +66,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = getContext();
         //restore photo image path
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(CURRENT_PHOTO_PATH) != null){
@@ -85,15 +89,42 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         mImageView = (ImageView) rootView.findViewById(R.id.product_icon_detail);
         mProduct_title = (TextView) rootView.findViewById(R.id.product_title_detail);
         mTitleButton = (Button) rootView.findViewById(R.id.product_title_button);
+        mTitleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(mContext).title("Name Product")
+                        .content("Name the product")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .input("Enter product name", "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                UpdateProductTask updateProductTask = new UpdateProductTask(mContext,
+                                        mProduct_ID_Array, input.toString(), ProductColumns.PRODUCT_NAME);
+                                updateProductTask.execute();
+                            }
+                        })
+                        .show();
+            }
+        });
         mExpirationDate = (TextView) rootView.findViewById(R.id.product_expiration_date_detail);
         mDateButton = (Button) rootView.findViewById(R.id.expiration_date_button);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putStringArray(DatePickerFragment.PRODUCT_ID, mProduct_ID_Array);
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.setArguments(bundle);
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
         mExpirationSummary = (TextView) rootView.findViewById(R.id.expiration_summary);
         mCameraButton = (Button) rootView.findViewById(R.id.camera_button);
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (getContext().checkSelfPermission(Manifest.permission.CAMERA)
+                    if (mContext.checkSelfPermission(Manifest.permission.CAMERA)
                             != PackageManager.PERMISSION_GRANTED){
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_REQUEST_CODE);
                     } else {
@@ -134,7 +165,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     public void takePicture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //Ensuring camera activity can handle intent
-        if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(mContext.getPackageManager()) != null) {
             //Create file where photo should go
             File photoFile = null;
             String state = Environment.getExternalStorageState();
@@ -144,13 +175,13 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }
 
             try {
-                photoFile = Utility.createImageFile(getContext());
+                photoFile = Utility.createImageFile(mContext);
                 mCurrentPhotoPath = photoFile.getAbsolutePath();
             } catch (IOException ex){
                 Log.e("createImageFile", ex.getMessage());
             }
             if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(getContext(), "com.example.android.fileprovider", photoFile);
+                Uri photoUri = FileProvider.getUriForFile(mContext, "com.example.android.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
