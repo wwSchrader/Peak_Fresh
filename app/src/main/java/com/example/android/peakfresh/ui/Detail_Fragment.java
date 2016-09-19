@@ -2,6 +2,7 @@ package com.example.android.peakfresh.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,7 +47,7 @@ import java.io.IOException;
 /**
  * Created by Warren on 9/8/2016.
  */
-public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
     private static final String[] DETAIL_COLUMNS = {ProductColumns.PRODUCT_NAME,
             ProductColumns.PRODUCT_ICON, ProductColumns.PRODUCT_EXPIRATION_DATE,
             ProductColumns.PRODUCT_EXPIRATION_DATE};
@@ -111,10 +113,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putStringArray(DatePickerFragment.PRODUCT_ID, mProduct_ID_Array);
                 DialogFragment newFragment = new DatePickerFragment();
-                newFragment.setArguments(bundle);
+                newFragment.setTargetFragment(Detail_Fragment.this, 0);
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
@@ -140,6 +140,20 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 //        mCategorySpinner = (Spinner) rootView.findViewById(R.id.category_spinner);
         getLoaderManager().initLoader(LOADER_ID, null, this);
         return rootView;
+    }
+
+    DatePickerDialog.OnDateSetListener onDate = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            int adjMonth = month + 1;
+
+            String newDate = adjMonth + "/" + day + "/" + year;
+            updateDate(newDate);
+        }
+    };
+
+    public void updateDate(String expirationDate){
+
     }
 
     //Handles thumbnail from taking picture
@@ -272,5 +286,18 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+        Log.v("onDateSet", "onDateSetTriggered");
+        int adjMonth = month + 1;
+
+        String newDate = adjMonth + "/" + day + "/" + year;
+        UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
+                newDate, ProductColumns.PRODUCT_EXPIRATION_DATE);
+        updateProductTask.execute();
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 }

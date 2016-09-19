@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -40,10 +42,12 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     private Context mContext;
     private ItemTouchHelper mItemTouchHelper;
     private Cursor mCursor;
+    private boolean mIsLargeLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
         //initialize database & add samples if there are none.
         InsertProductTask insertProductTask = new InsertProductTask(getContext());
         insertProductTask.execute();
@@ -55,9 +59,10 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
         mContext = getContext();
 
-        mRecyclerView = (RecyclerView) inflater.inflate(
-                R.layout.fragment_main__fragment__list, container, false
-        );
+        getActivity().setContentView(R.layout.fragment_main__fragment__list);
+
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.main_recycler_view);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
@@ -80,8 +85,19 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                CreateNewProductDialogFragment newFragment = new CreateNewProductDialogFragment();
+
+                newFragment.show(fragmentManager, "dialog");
+            }
+        });
+
         //inflate layout for fragment
-        return mRecyclerView;
+        return inflater.inflate(R.layout.fragment_main__fragment__list, container, false);
     }
 
 
