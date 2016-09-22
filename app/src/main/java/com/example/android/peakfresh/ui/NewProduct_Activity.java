@@ -15,8 +15,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +36,7 @@ import java.io.IOException;
  * This activity is for adding new products. It will appear as a dialog on large screen devices.
  */
 
-public class NewProduct_Activity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
+public class NewProduct_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private Context mContext;
     private String newDate = "null";
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
