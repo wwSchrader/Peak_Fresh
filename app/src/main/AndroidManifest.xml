@@ -28,6 +28,14 @@
                 android:value=".ui.Main_Activity" />
         </activity>
 
+        <activity android:name=".ui.NewProduct_Activity"
+                  android:label="@string/title_newProduct_Activity"
+                  android:theme="@android:style/Theme.Holo.Light.DialogWhenLarge.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Main_Activity" />
+        </activity>
+
         <provider
             android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
             android:name=".data.generated.ProductContentProvider"

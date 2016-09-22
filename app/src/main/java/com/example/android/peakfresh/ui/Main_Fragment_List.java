@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -89,10 +88,8 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                CreateNewProductDialogFragment newFragment = new CreateNewProductDialogFragment();
-
-                newFragment.show(fragmentManager, "dialog");
+                Intent intent = new Intent(mContext, NewProduct_Activity.class);
+                startActivity(intent);
             }
         });
 

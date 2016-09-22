@@ -159,7 +159,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     //Handles thumbnail from taking picture
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getActivity();
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             setPic();
             galleryAddPic();
@@ -202,8 +201,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
         }
     }
-
-
 
     private void setPic() {
         // Get the dimensions of the View
@@ -290,8 +287,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-
-        Log.v("onDateSet", "onDateSetTriggered");
         int adjMonth = month + 1;
 
         String newDate = adjMonth + "/" + day + "/" + year;
