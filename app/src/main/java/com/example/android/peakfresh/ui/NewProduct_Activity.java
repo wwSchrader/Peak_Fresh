@@ -33,6 +33,7 @@ import java.io.IOException;
 
 /**
  * Created by Warren on 9/21/2016.
+ * This activity is for adding new products. It will appear as a dialog on large screen devices.
  */
 
 public class NewProduct_Activity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
@@ -40,6 +41,8 @@ public class NewProduct_Activity extends FragmentActivity implements DatePickerD
     private String newDate = "null";
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
     private static final int MY_REQUEST_CODE = 2;
+    private static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
+    private static final String CURRENT_EXP_DATE = "currentExpDate";
 
     ImageView newProductImage;
     Button newProductCameraButton, newProductDateButton;
@@ -50,6 +53,7 @@ public class NewProduct_Activity extends FragmentActivity implements DatePickerD
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.new_product_activity);
         mContext = this;
 
@@ -81,6 +85,35 @@ public class NewProduct_Activity extends FragmentActivity implements DatePickerD
             }
         });
         newProductExpirationDateTextView = (TextView) findViewById(R.id.new_product_expiration_date_activity);
+
+        if (savedInstanceState != null){
+            //restore any images or dates
+            if (savedInstanceState.getString(CURRENT_PHOTO_PATH) != null){
+                mCurrentPhotoPath = savedInstanceState.getString(CURRENT_PHOTO_PATH);
+                setPic();
+            }
+            if (savedInstanceState.getString(CURRENT_EXP_DATE) != null){
+                newDate = savedInstanceState.getString(CURRENT_EXP_DATE);
+                newProductExpirationDateTextView.setText(newDate);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mCurrentPhotoPath != null){
+            outState.putString(CURRENT_PHOTO_PATH, mCurrentPhotoPath);
+        }
+        if (newDate != null){
+            outState.putString(CURRENT_EXP_DATE, newDate);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public void takePicture(){
