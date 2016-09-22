@@ -76,7 +76,7 @@ public class NewProduct_Activity extends FragmentActivity implements DatePickerD
         newProductDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DatePickerForActivitiesFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
