@@ -16,9 +16,15 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,8 +60,33 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(getResources().getBoolean(R.bool.large_layout)){
+            //if screen is large, display as a dialog box
+
+            // From: http://stackoverflow.com/questions/11425020/actionbar-in-a-dialogfragment
+            this.requestWindowFeature(Window.FEATURE_ACTION_BAR);
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND, WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams params = this.getWindow().getAttributes();
+            params.alpha = 1.0f;
+            params.dimAmount = 0.5f;
+            this.getWindow().setAttributes(params);
+
+            // This sets the window size, while working around the IllegalStateException thrown by ActionBarView
+            this.getWindow().setLayout(850,850);
+        }
+
+
         setContentView(R.layout.new_product_activity);
         mContext = this;
+
+        //setup toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        //setup up button on toolbar
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         newProductImage = (ImageView) findViewById(R.id.new_product_image_detail);
         newProductCameraButton = (Button) findViewById(R.id.new_product_camera_button_activity);
@@ -103,6 +134,31 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     protected void onResume() {
 
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.new_product_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_discard:
+                // User chose the to discard new product, return to main activity
+                return true;
+
+            case R.id.action_accept:
+                //User chose to accept new product, save in db and return to main activity
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override

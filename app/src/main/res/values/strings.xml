@@ -8,4 +8,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="title_newProduct_Activity">New Product</string>
+    <string name="action_accept">accept</string>
+    <string name="action_discard">discard</string>
 </resources>
