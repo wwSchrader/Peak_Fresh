@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.peakfresh.InsertProductTask;
 import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.Utility;
 
@@ -49,6 +50,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     private static final int MY_REQUEST_CODE = 2;
     private static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
     private static final String CURRENT_EXP_DATE = "currentExpDate";
+    public static final String ADD_PRODUCT_KEY = "addProduct";
 
     ImageView newProductImage;
     Button newProductCameraButton, newProductDateButton;
@@ -147,10 +149,18 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         switch (item.getItemId()) {
             case R.id.action_discard:
                 // User chose the to discard new product, return to main activity
+                finish();
                 return true;
 
             case R.id.action_accept:
                 //User chose to accept new product, save in db and return to main activity
+                InsertProductTask insertProductTask = new InsertProductTask(this, ADD_PRODUCT_KEY);
+                insertProductTask.execute(
+                        productTitleEditTextField.getText().toString(),
+                        "Produce",
+                        newDate,
+                        mCurrentPhotoPath
+                );
                 return true;
 
             default:

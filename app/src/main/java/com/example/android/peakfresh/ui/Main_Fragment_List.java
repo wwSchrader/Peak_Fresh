@@ -32,6 +32,7 @@ import java.util.ArrayList;
 public class Main_Fragment_List extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener{
 
     public static final String TAG = Main_Fragment_List.class.getSimpleName();
+    public static final String INIT_DATABASE_KEY = "init";
 
     protected RecyclerView mRecyclerView;
     ArrayList<String> list = new ArrayList<>();
@@ -43,13 +44,17 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     private Cursor mCursor;
     private boolean mIsLargeLayout;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
-        //initialize database & add samples if there are none.
-        InsertProductTask insertProductTask = new InsertProductTask(getContext());
-        insertProductTask.execute();
+
+        if (savedInstanceState == null){
+            //initialize database & add samples if there are none.
+            InsertProductTask insertProductTask = new InsertProductTask(getActivity(), INIT_DATABASE_KEY);
+            insertProductTask.execute();
+        }
     }
 
     @Nullable
