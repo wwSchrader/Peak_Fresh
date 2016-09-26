@@ -220,8 +220,8 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
 
     private void setPic() {
         // Get the dimensions of the View
-        int targetW = 1000;
-        int targetH = 1000;
+        int targetW = 500;
+        int targetH = 500;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();

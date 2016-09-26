@@ -99,6 +99,7 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         if (addKey.equals(NewProduct_Activity.ADD_PRODUCT_KEY)){
+            //display toast confirming that product was added then finish the activity
             Toast.makeText(mContext, "Product Added!", Toast.LENGTH_SHORT).show();
             mActivity.finish();
         }
