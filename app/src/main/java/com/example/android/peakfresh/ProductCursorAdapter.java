@@ -68,7 +68,7 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
         @Override
         public void onItemClear() {
             //set to no color if cleared
-            itemView.setBackgroundColor(0);
+            itemView.setBackgroundColor(Color.WHITE);
         }
     }
 

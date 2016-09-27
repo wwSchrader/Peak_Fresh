@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -33,6 +34,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     public static final String TAG = Main_Fragment_List.class.getSimpleName();
     public static final String INIT_DATABASE_KEY = "init";
+
 
     protected RecyclerView mRecyclerView;
     ArrayList<String> list = new ArrayList<>();
@@ -71,6 +73,8 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
+
+
         mCursorAdapter = new ProductCursorAdapter(mContext, null);
         mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(),
                 new RecyclerViewItemClickListener.OnItemClickListener() {
@@ -81,7 +85,10 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
                         int productId = c.getInt(c.getColumnIndex(ProductColumns._ID));
                         Intent intent = new Intent(getContext(), Detail_Activity.class);
                         intent.putExtra(Detail_Fragment.PRODUCT_ID_KEY, productId);
-                        startActivity(intent);
+                        View imageTransitionView = getActivity().findViewById(R.id.product_icon);
+                        //set shared element transition
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageTransitionView, getString(R.string.share_element_transition_name));
+                        startActivity(intent, options.toBundle());
                     }
                 }));
         mRecyclerView.setAdapter(mCursorAdapter);
