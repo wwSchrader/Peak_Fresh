@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -68,7 +68,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.main_recycler_view);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mRecyclerView.getContext(), numberOfColumns));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         mCursorAdapter = new ProductCursorAdapter(mContext, null);
