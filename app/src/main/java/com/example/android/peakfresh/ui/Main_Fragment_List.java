@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -85,10 +86,19 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
                         int productId = c.getInt(c.getColumnIndex(ProductColumns._ID));
                         Intent intent = new Intent(getContext(), Detail_Activity.class);
                         intent.putExtra(Detail_Fragment.PRODUCT_ID_KEY, productId);
-                        View imageTransitionView = getActivity().findViewById(R.id.product_icon);
-                        //set shared element transition
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageTransitionView, getString(R.string.share_element_transition_name));
-                        startActivity(intent, options.toBundle());
+                        intent.putExtra(Detail_Fragment.IMAGE_POSITION, position);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            //setup shared element transition
+                            View imageTransitionView = v.findViewById(R.id.product_icon);
+                            String transitionName = imageTransitionView.getTransitionName();
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageTransitionView, transitionName);
+                            startActivity(intent, options.toBundle());
+                        } else {
+                            startActivity(intent);
+                        }
+
+
                     }
                 }));
         mRecyclerView.setAdapter(mCursorAdapter);

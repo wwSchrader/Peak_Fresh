@@ -20,7 +20,6 @@
 
         <ImageView
             android:id="@+id/new_product_image_detail"
-            android:transitionName="@string/share_element_transition_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

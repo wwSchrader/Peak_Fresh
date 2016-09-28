@@ -22,6 +22,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,6 +69,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     public final static String PRODUCT_ID_KEY = "Product_Id";
     static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
     private String mCurrentPhotoPath;
+    public static final String EXTRA_IMAGE = "extra_image";
+    public static final String IMAGE_POSITION = "image_position";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +96,12 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         mImageView = (ImageView) rootView.findViewById(R.id.product_icon_detail);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int position = getActivity().getIntent().getIntExtra(IMAGE_POSITION, 0);
+            mImageView.setTransitionName(EXTRA_IMAGE + position);
+            ViewCompat.setTransitionName(mImageView, EXTRA_IMAGE + position);
+            Log.d("Set Transition name", mImageView.getTransitionName());
+        }
         mProduct_title = (TextView) rootView.findViewById(R.id.product_title_detail);
         mTitleButton = (Button) rootView.findViewById(R.id.product_title_button);
         mTitleButton.setOnClickListener(new View.OnClickListener() {
@@ -306,6 +315,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                         sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getActivity().supportStartPostponedEnterTransition();
+                            Log.d("StartTransition", "Transition started");
                         }
                         return true;
                     }

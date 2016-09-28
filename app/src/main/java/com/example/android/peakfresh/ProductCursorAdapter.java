@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperAdapter;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperViewHolder;
+import com.example.android.peakfresh.ui.Detail_Fragment;
 
 /**
  * Created by Warren on 8/29/2016.
@@ -73,7 +75,7 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
     }
 
     @Override
-    public void onBindViewHolder(ProductCursorAdapter.ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
         viewHolder.productName.setText(cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_NAME)));
         viewHolder.productExpirationDate.setText(cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
 
@@ -85,6 +87,9 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
                 .placeholder(R.mipmap.ic_launcher)
                 .fitCenter()
                 .into(viewHolder.productIcon);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewHolder.productIcon.setTransitionName(Detail_Fragment.EXTRA_IMAGE + viewHolder.getAdapterPosition());
+        }
     }
 
     @Override
