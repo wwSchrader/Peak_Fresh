@@ -129,6 +129,9 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
                 newDate = savedInstanceState.getString(CURRENT_EXP_DATE);
                 newProductExpirationDateTextView.setText(newDate);
             }
+        } else {
+            mCurrentPhotoPath = Utility.resourceToUri(mContext, R.mipmap.ic_launcher).toString();
+            setPic();
         }
     }
 

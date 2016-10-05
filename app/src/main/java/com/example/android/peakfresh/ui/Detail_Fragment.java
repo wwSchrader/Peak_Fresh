@@ -284,6 +284,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         if (data.moveToFirst()) {
             mProduct_title.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)));
             mExpirationDate.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
+            mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
 
             Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
 
@@ -301,12 +302,14 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 scheduleStartPostponedTransition(mImageView);
+                                Log.v("OnLoadFinished", "scheduleStartPostponedTransition triggered");
                             }
                             return false;
                         }
                     })
                     .into(mImageView);
         }
+        Log.v("OnLoadFinished", "Finished method");
     }
 
     private void scheduleStartPostponedTransition(final View sharedElement) {
@@ -316,8 +319,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                     public boolean onPreDraw() {
                         sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            getActivity().supportStartPostponedEnterTransition();
                             Log.d("StartTransition", "Transition started");
+                            getActivity().supportStartPostponedEnterTransition();
                         }
                         return true;
                     }
