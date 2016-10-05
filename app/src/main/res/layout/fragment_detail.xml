@@ -3,29 +3,56 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/product_icon_detail"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="fitCenter"/>
+        android:layout_height="250dp">
 
-    <Button
-        android:id="@+id/camera_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Camera Button"/>
+        <ImageView
+            android:id="@+id/product_icon_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"/>
 
-    <TextView
-        android:id="@+id/product_title_detail"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_scrim"
+            android:id="@+id/view"/>
+
+        <ImageButton
+            android:id="@+id/camera_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera_button"
+            android:layout_gravity="top|end"
+            android:background="@android:color/transparent"
+            android:contentDescription="Camera Button"/>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/product_title_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title Button"/>
+        <TextView
+            android:id="@+id/product_title_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"/>
+
+        <ImageButton
+            android:id="@+id/product_title_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:src="@drawable/edit_button"
+            android:background="@android:color/transparent"
+            android:text="Title Button"/>
+    </FrameLayout>
+
+
 
     <TextView
         android:id="@+id/expiration_summary"

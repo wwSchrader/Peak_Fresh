@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,7 +63,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private int mProduct_Id;
     ImageView mImageView;
     TextView mProduct_title, mExpirationSummary, mExpirationDate;
-    Button mCalendarButton, mCameraButton, mTitleButton, mDateButton;
+    ImageButton mCameraButton, mTitleButton;
+    Button mCalendarButton, mDateButton;
     Spinner mCategorySpinner;
     private static String[] mProduct_ID_Array;
     private final static int LOADER_ID = 1;
@@ -103,7 +105,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             Log.d("Set Transition name", mImageView.getTransitionName());
         }
         mProduct_title = (TextView) rootView.findViewById(R.id.product_title_detail);
-        mTitleButton = (Button) rootView.findViewById(R.id.product_title_button);
+        mTitleButton = (ImageButton) rootView.findViewById(R.id.product_title_button);
         mTitleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,7 +134,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
         mExpirationSummary = (TextView) rootView.findViewById(R.id.expiration_summary);
-        mCameraButton = (Button) rootView.findViewById(R.id.camera_button);
+        mCameraButton = (ImageButton) rootView.findViewById(R.id.camera_button);
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
