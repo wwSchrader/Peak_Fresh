@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -49,6 +50,7 @@ import com.example.android.peakfresh.data.ProductContentProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Warren on 9/8/2016.
@@ -56,7 +58,7 @@ import java.io.IOException;
 public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
     private static final String[] DETAIL_COLUMNS = {ProductColumns.PRODUCT_NAME,
             ProductColumns.PRODUCT_ICON, ProductColumns.PRODUCT_EXPIRATION_DATE,
-            ProductColumns.PRODUCT_EXPIRATION_DATE};
+            ProductColumns.PRODUCT_EXPIRATION_DATE, ProductColumns.PRODUCT_CATEGORY};
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
     private static final int MY_REQUEST_CODE = 2;
     private Context mContext;
@@ -68,11 +70,14 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     Spinner mCategorySpinner;
     private static String[] mProduct_ID_Array;
     private final static int LOADER_ID = 1;
+    private final static int LOADER_ID_SPINNER = 2;
     public final static String PRODUCT_ID_KEY = "Product_Id";
     static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
     private String mCurrentPhotoPath;
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_POSITION = "image_position";
+    String[]  fromColumns = {ProductColumns.PRODUCT_CATEGORY};
+    int[] toViews = {android.R.id.text1};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +157,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
         mCalendarButton = (Button) rootView.findViewById(R.id.add_to_calendar_button);
-//        mCategorySpinner = (Spinner) rootView.findViewById(R.id.category_spinner);
+        mCategorySpinner = (Spinner) rootView.findViewById(R.id.category_spinner);
+
         getLoaderManager().initLoader(LOADER_ID, null, this);
         return rootView;
     }
@@ -266,7 +272,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (mProduct_Id != 0) {
+        if (mProduct_Id != 0 && id == LOADER_ID) {
             return new CursorLoader(
                     getActivity(),
                     ProductContentProvider.Products.PRODUCTS_URI,
@@ -281,10 +287,16 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data.moveToFirst()) {
+        if (data.moveToFirst() && loader.getId() == LOADER_ID) {
             mProduct_title.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)));
             mExpirationDate.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
             mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
+
+            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext);
+            ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
+            adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
+            mCategorySpinner.setAdapter(adapter);
+            mCategorySpinner.setSelection(adapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))));
 
             Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
 
