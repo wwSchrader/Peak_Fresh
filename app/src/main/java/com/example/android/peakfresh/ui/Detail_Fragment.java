@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -55,7 +56,7 @@ import java.util.ArrayList;
 /**
  * Created by Warren on 9/8/2016.
  */
-public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
+public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
     private static final String[] DETAIL_COLUMNS = {ProductColumns.PRODUCT_NAME,
             ProductColumns.PRODUCT_ICON, ProductColumns.PRODUCT_EXPIRATION_DATE,
             ProductColumns.PRODUCT_EXPIRATION_DATE, ProductColumns.PRODUCT_CATEGORY};
@@ -78,6 +79,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     public static final String IMAGE_POSITION = "image_position";
     String[]  fromColumns = {ProductColumns.PRODUCT_CATEGORY};
     int[] toViews = {android.R.id.text1};
+    boolean onItemSelectedListenerFlag = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,6 +160,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         });
         mCalendarButton = (Button) rootView.findViewById(R.id.add_to_calendar_button);
         mCategorySpinner = (Spinner) rootView.findViewById(R.id.category_spinner);
+
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
         return rootView;
@@ -292,13 +295,19 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             mExpirationDate.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
             mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
 
+            //setup the view for the category spinner
             ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext);
             ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
+            //set flag to false since onItemSelected is triggered when first set
+            onItemSelectedListenerFlag = false;
             adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
             mCategorySpinner.setAdapter(adapter);
-            mCategorySpinner.setSelection(adapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))));
+            mCategorySpinner.setSelection(adapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))), false);
+            mCategorySpinner.setOnItemSelectedListener(this);
 
-            Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
+            Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + " " +
+                    data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)) + " " +
+                    data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY)));
 
             Glide.with(getContext())
                     .load(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_ICON)))
@@ -353,5 +362,25 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                 newDate, ProductColumns.PRODUCT_EXPIRATION_DATE);
         updateProductTask.execute();
         getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //handle first time trigger of onItemSelected by checking flag for first time trigger
+        if (onItemSelectedListenerFlag){
+            UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
+                    parent.getItemAtPosition(position).toString(), ProductColumns.PRODUCT_CATEGORY);
+            updateProductTask.execute();
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+            Log.v("onItemSelected", "triggered");
+        } else {
+            //if it's the first time, set flag to true to run code next time
+            onItemSelectedListenerFlag = true;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
