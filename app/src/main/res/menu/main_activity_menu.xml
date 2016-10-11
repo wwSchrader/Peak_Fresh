@@ -4,6 +4,12 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".ui.Main_ActivityActivity">
     <item
+        android:id="@+id/menuSort"
+        android:title="Sort"
+        compat:showAsAction="ifRoom"
+        compat:actionViewClass="android.widget.Spinner" />
+
+    <item
         android:id="@+id/settings"
         android:title="@string/settings"
         compat:showAsAction="never"/>

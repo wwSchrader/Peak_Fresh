@@ -25,10 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.android.peakfresh.InsertProductTask;
@@ -37,13 +40,14 @@ import com.example.android.peakfresh.Utility;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Warren on 9/21/2016.
  * This activity is for adding new products. It will appear as a dialog on large screen devices.
  */
 
-public class NewProduct_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class NewProduct_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
     private Context mContext;
     private String newDate = "null";
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
@@ -56,7 +60,10 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     Button newProductCameraButton, newProductDateButton;
     EditText productTitleEditTextField;
     TextView newProductExpirationDateTextView;
+    Spinner mCategorySpinner;
     private String mCurrentPhotoPath;
+    private boolean onItemSelectedListenerFlag;
+    private String[] mProduct_ID_Array;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,6 +125,16 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
             }
         });
         newProductExpirationDateTextView = (TextView) findViewById(R.id.new_product_expiration_date_activity);
+
+        mCategorySpinner = (Spinner) findViewById(R.id.new_product_category_spinner);
+        //setup the view for the category spinner
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext);
+        ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
+        //set flag to false since onItemSelected is triggered when first set
+        onItemSelectedListenerFlag = false;
+        adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
+        mCategorySpinner.setAdapter(adapter);
+        mCategorySpinner.setOnItemSelectedListener(this);
 
         if (savedInstanceState != null){
             //restore any images or dates
@@ -262,5 +279,15 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         //update date string with date selected from datepicker fragment
         newDate = adjMonth + "/" + dayOfMonth + "/" + year;
         newProductExpirationDateTextView.setText(newDate);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
