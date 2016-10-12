@@ -296,7 +296,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
 
             //setup the view for the category spinner
-            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext);
+            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
             ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
             //set flag to false since onItemSelected is triggered when first set
             onItemSelectedListenerFlag = false;

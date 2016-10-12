@@ -128,7 +128,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
 
         mCategorySpinner = (Spinner) findViewById(R.id.new_product_category_spinner);
         //setup the view for the category spinner
-        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext);
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "add_screen");
         ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
         onItemSelectedListenerFlag = false;

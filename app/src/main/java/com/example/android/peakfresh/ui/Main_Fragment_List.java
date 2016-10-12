@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -124,12 +125,22 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(mContext, ProductContentProvider.Products.PRODUCTS_URI,
-                new String[]{ProductColumns._ID, ProductColumns.PRODUCT_NAME, ProductColumns.PRODUCT_EXPIRATION_DATE,
-                ProductColumns.PRODUCT_CATEGORY, ProductColumns.PRODUCT_ICON},
-                null,
-                null,
-                null);
+        if (mCategory.equals("All")){
+            //if category is "all" use null values for selection and selctionArgs
+            return new CursorLoader(mContext, ProductContentProvider.Products.PRODUCTS_URI,
+                    new String[]{ProductColumns._ID, ProductColumns.PRODUCT_NAME, ProductColumns.PRODUCT_EXPIRATION_DATE,
+                            ProductColumns.PRODUCT_CATEGORY, ProductColumns.PRODUCT_ICON},
+                    null,
+                    null,
+                    null);
+        } else {
+            return new CursorLoader(mContext, ProductContentProvider.Products.PRODUCTS_URI,
+                    new String[]{ProductColumns._ID, ProductColumns.PRODUCT_NAME, ProductColumns.PRODUCT_EXPIRATION_DATE,
+                            ProductColumns.PRODUCT_CATEGORY, ProductColumns.PRODUCT_ICON},
+                    ProductColumns.PRODUCT_CATEGORY + "=?",
+                    new String[] {mCategory},
+                    null);
+        }
     }
 
     @Override
@@ -147,8 +158,25 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
         //switches
-        if (s.equals("category-key")){
-            mCategory = sharedPreferences.getString("category-key", "all");
+        if (s.equals(Main_Activity.CATEGORY_SHARED_PREF_KEY)){
+            mCategory = sharedPreferences.getString(Main_Activity.CATEGORY_SHARED_PREF_KEY, "All");
+            getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
         }
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sp.registerOnSharedPreferenceChangeListener(this);
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sp.unregisterOnSharedPreferenceChangeListener(this);
+
+        super.onPause();
     }
 }

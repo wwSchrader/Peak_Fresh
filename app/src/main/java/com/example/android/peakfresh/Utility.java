@@ -175,13 +175,31 @@ public class Utility {
         return editor.commit();
     }
 
-    public static ArrayList<String> loadCategoryArray(String arrayName, Context mContext) {
+    public static ArrayList<String> loadCategoryArray(String arrayName, Context mContext, String loadType) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
         int size = prefs.getInt(arrayName + "_size", 0);
         ArrayList<String> arrayList= new ArrayList<String>();
+
+
+
+
         for(int i = 0; i < size; i++) {
             arrayList.add(prefs.getString(arrayName + "_" + i, null));
         }
+
+
+        switch (loadType){
+            case "main_screen":
+                arrayList.add(0, "All");
+                break;
+            case "add_screen":
+                arrayList.add(0, "Choose category");
+                arrayList.add("Custom");
+                break;
+            case "detail_screen":
+                arrayList.add("Custom");
+        }
+
         return arrayList;
     }
 

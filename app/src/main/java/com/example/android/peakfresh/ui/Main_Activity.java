@@ -1,6 +1,8 @@
 package com.example.android.peakfresh.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,10 +17,12 @@ import com.example.android.peakfresh.Utility;
 
 import java.util.ArrayList;
 
-public class Main_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class Main_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener{
 
+    public static final String CATEGORY_SHARED_PREF_KEY = "category-key";
     private Object onItemSelectedListener;
     private boolean onItemSelectedListenerFlag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         MenuItem item = menu.findItem(R.id.menuSort);
         Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
         //setup the view for the category spinner
-        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, this);
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, this, "main_screen");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
         onItemSelectedListenerFlag = false;
@@ -68,11 +72,42 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (onItemSelectedListenerFlag){
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor prefsEdit = prefs.edit();
+            prefsEdit.putString(CATEGORY_SHARED_PREF_KEY, parent.getItemAtPosition(position).toString());
+            prefsEdit.apply();
+        } else {
+            onItemSelectedListenerFlag = true;
+        }
 
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //setting up listener for a key change
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //unregister listener for key change
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
     }
 }
