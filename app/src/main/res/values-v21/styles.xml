@@ -15,6 +15,5 @@
                         @transition/change_image_trans</item>
                 <item name="android:windowSharedElementExitTransition">
                         @transition/change_image_trans</item>
-
         </style>
 </resources>
