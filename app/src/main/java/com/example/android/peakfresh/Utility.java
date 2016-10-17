@@ -180,13 +180,9 @@ public class Utility {
         int size = prefs.getInt(arrayName + "_size", 0);
         ArrayList<String> arrayList= new ArrayList<String>();
 
-
-
-
         for(int i = 0; i < size; i++) {
             arrayList.add(prefs.getString(arrayName + "_" + i, null));
         }
-
 
         switch (loadType){
             case "main_screen":

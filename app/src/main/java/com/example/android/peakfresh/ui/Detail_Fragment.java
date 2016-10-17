@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,6 +39,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
@@ -56,7 +59,8 @@ import java.util.ArrayList;
 /**
  * Created by Warren on 9/8/2016.
  */
-public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener,
+        DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, AddCategoryDialogFragment.CategoryDialogListener {
     private static final String[] DETAIL_COLUMNS = {ProductColumns.PRODUCT_NAME,
             ProductColumns.PRODUCT_ICON, ProductColumns.PRODUCT_EXPIRATION_DATE,
             ProductColumns.PRODUCT_EXPIRATION_DATE, ProductColumns.PRODUCT_CATEGORY};
@@ -64,6 +68,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private static final int MY_REQUEST_CODE = 2;
     private Context mContext;
     private int mProduct_Id;
+    private ArrayAdapter categoryArrayAdapter;
     ImageView mImageView;
     TextView mProduct_title, mExpirationSummary, mExpirationDate;
     ImageButton mCameraButton, mTitleButton;
@@ -297,12 +302,12 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
             //setup the view for the category spinner
             ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
-            ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
+            categoryArrayAdapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
             //set flag to false since onItemSelected is triggered when first set
             onItemSelectedListenerFlag = false;
-            adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
-            mCategorySpinner.setAdapter(adapter);
-            mCategorySpinner.setSelection(adapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))), false);
+            categoryArrayAdapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
+            mCategorySpinner.setAdapter(categoryArrayAdapter);
+            mCategorySpinner.setSelection(categoryArrayAdapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))), false);
             mCategorySpinner.setOnItemSelectedListener(this);
 
             Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + " " +
@@ -368,10 +373,15 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //handle first time trigger of onItemSelected by checking flag for first time trigger
         if (onItemSelectedListenerFlag){
-            UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
-                    parent.getItemAtPosition(position).toString(), ProductColumns.PRODUCT_CATEGORY);
-            updateProductTask.execute();
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
+            if(parent.getItemAtPosition(position).toString().equals("Custom")){
+                //launch fragment to add new category
+                AddCategoryDialogFragment categoryDialogFragment = new AddCategoryDialogFragment();
+                categoryDialogFragment.setTargetFragment(this, 0);
+                categoryDialogFragment.show(getFragmentManager(), "newCategory");
+
+            }else {
+                updateProductCategory(parent.getItemAtPosition(position).toString());
+            }
             Log.v("onItemSelected", "triggered");
         } else {
             //if it's the first time, set flag to true to run code next time
@@ -379,8 +389,56 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    public void updateProductCategory(String item){
+        UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
+                item, ProductColumns.PRODUCT_CATEGORY);
+        updateProductTask.execute();
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        //switches
+        if (key.equals(Main_Activity.CATEGORY_SHARED_PREF_KEY)){
+            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
+            //set spinner selection to new category
+            mCategorySpinner.setSelection(categoryArrayList.size() - 2, false);
+            Toast.makeText(getContext(), "Category added!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sp.registerOnSharedPreferenceChangeListener(this);
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sp.unregisterOnSharedPreferenceChangeListener(this);
+
+        super.onPause();
+    }
+
+    @Override
+    public void onDialogPositiveClick(String category) {
+        Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, category);
+        updateProductCategory(category);
+
+        Toast.makeText(mContext, "Category Added!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
+        //restart the loader to reset the spinner
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        Toast.makeText(mContext, "Action Canceled", Toast.LENGTH_SHORT).show();
     }
 }
