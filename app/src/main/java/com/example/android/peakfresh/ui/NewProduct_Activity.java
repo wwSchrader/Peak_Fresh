@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.peakfresh.InsertProductTask;
 import com.example.android.peakfresh.R;
@@ -47,7 +48,7 @@ import java.util.ArrayList;
  * This activity is for adding new products. It will appear as a dialog on large screen devices.
  */
 
-public class NewProduct_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class NewProduct_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener,  AddCategoryDialogFragment.CategoryDialogListener {
     private Context mContext;
     private String newDate = "null";
     private static final int  REQUEST_IMAGE_CAPTURE = 1;
@@ -61,9 +62,10 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     EditText productTitleEditTextField;
     TextView newProductExpirationDateTextView;
     Spinner mCategorySpinner;
-    private String mCurrentPhotoPath;
+    private String mCurrentPhotoPath, mCategory;
     private boolean onItemSelectedListenerFlag;
     private String[] mProduct_ID_Array;
+    private int spinnerSelection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,6 +137,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
         mCategorySpinner.setAdapter(adapter);
         mCategorySpinner.setOnItemSelectedListener(this);
+        spinnerSelection = 0;
 
         if (savedInstanceState != null){
             //restore any images or dates
@@ -177,7 +180,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
                 InsertProductTask insertProductTask = new InsertProductTask(this, ADD_PRODUCT_KEY);
                 insertProductTask.execute(
                         productTitleEditTextField.getText().toString(),
-                        "Produce",
+                        mCategory,
                         newDate,
                         mCurrentPhotoPath
                 );
@@ -283,11 +286,46 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (onItemSelectedListenerFlag){
+            if(parent.getItemAtPosition(position).toString().equals("Custom")){
+                //launch fragment to add new category
+                AddCategoryDialogFragment categoryDialogFragment = new AddCategoryDialogFragment();
+                categoryDialogFragment.show(getSupportFragmentManager(), "newCategory");
 
+            }else {
+                mCategory = parent.getItemAtPosition(position).toString();
+                spinnerSelection = parent.getSelectedItemPosition();
+            }
+            Log.v("onItemSelected", "triggered");
+        } else {
+            //if it's the first time, set flag to true to run code next time
+            onItemSelectedListenerFlag = true;
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onDialogPositiveClick(String category) {
+        mCategory = category;
+        Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, category);
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "add_screen");
+        ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
+        //set flag to false since onItemSelected is triggered when first set
+        onItemSelectedListenerFlag = false;
+        adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
+        mCategorySpinner.setAdapter(adapter);
+        mCategorySpinner.setSelection(adapter.getPosition(category));
+        mCategorySpinner.setOnItemSelectedListener(this);
+        Toast.makeText(mContext, "Category Added!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
+        mCategorySpinner.setSelection(spinnerSelection);
+        Toast.makeText(mContext, "Action Canceled", Toast.LENGTH_SHORT).show();
     }
 }

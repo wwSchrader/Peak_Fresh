@@ -34,11 +34,16 @@ public class AddCategoryDialogFragment extends DialogFragment {
         Activity activity = (Activity) context;
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mCategoryDialogListener = (CategoryDialogListener) getTargetFragment();
+            mCategoryDialogListener = (CategoryDialogListener) activity;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString()
-                    + " must implement CategoryDialogListener");
+            // The activity doesn't implement the interface, throw exception and try to get the target fragment
+            try {
+                mCategoryDialogListener = (CategoryDialogListener) getTargetFragment();
+            } catch (ClassCastException ex){
+                //if activity isn't implemented the second time, throw exception
+                throw new ClassCastException(activity.toString()
+                        + " must implement CategoryDialogListener");
+            }
         }
     }
 

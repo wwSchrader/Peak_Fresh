@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -14,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,8 +57,9 @@ import java.util.ArrayList;
 /**
  * Created by Warren on 9/8/2016.
  */
-public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener,
-        DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, AddCategoryDialogFragment.CategoryDialogListener {
+public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener,
+        AddCategoryDialogFragment.CategoryDialogListener {
     private static final String[] DETAIL_COLUMNS = {ProductColumns.PRODUCT_NAME,
             ProductColumns.PRODUCT_ICON, ProductColumns.PRODUCT_EXPIRATION_DATE,
             ProductColumns.PRODUCT_EXPIRATION_DATE, ProductColumns.PRODUCT_CATEGORY};
@@ -398,33 +397,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        //switches
-        if (key.equals(Main_Activity.CATEGORY_SHARED_PREF_KEY)){
-            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
-            //set spinner selection to new category
-            mCategorySpinner.setSelection(categoryArrayList.size() - 2, false);
-            Toast.makeText(getContext(), "Category added!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sp.registerOnSharedPreferenceChangeListener(this);
-
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-        sp.unregisterOnSharedPreferenceChangeListener(this);
-
-        super.onPause();
     }
 
     @Override
