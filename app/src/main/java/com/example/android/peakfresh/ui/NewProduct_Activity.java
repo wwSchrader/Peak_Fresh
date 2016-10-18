@@ -122,7 +122,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         newProductDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new DatePickerForActivitiesFragment();
+                DialogFragment newFragment = new DatePickerFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
