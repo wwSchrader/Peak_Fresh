@@ -1,5 +1,6 @@
 package com.example.android.peakfresh.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,7 +79,8 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.settings){
-            getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

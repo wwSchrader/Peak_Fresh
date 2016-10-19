@@ -36,6 +36,14 @@
                 android:value=".ui.Main_Activity" />
         </activity>
 
+        <activity android:name=".ui.SettingsActivity"
+                  android:label="Settings"
+                  android:theme="@style/DialogTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Main_Activity" />
+        </activity>
+
         <provider
             android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
             android:name=".data.generated.ProductContentProvider"
