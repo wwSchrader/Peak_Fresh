@@ -40,7 +40,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     protected RecyclerView mRecyclerView;
     ArrayList<String> list = new ArrayList<>();
-    private String mCategory = "all";
+    private String mCategory = "All";
     private static final int CURSOR_LOADER_ID = 0;
     private ProductCursorAdapter mCursorAdapter;
     private Context mContext;
