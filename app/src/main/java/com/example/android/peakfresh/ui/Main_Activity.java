@@ -29,6 +29,10 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set default values for settings menu
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        //setup animated transitions if version supports it
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -73,6 +77,9 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings){
+            getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 
