@@ -6,7 +6,10 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.example.android.peakfresh.AlarmReceiver;
 import com.example.android.peakfresh.R;
 
 /**
@@ -20,14 +23,35 @@ public class SettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+
     public static class SettingsFragment extends PreferenceFragment {
         public static final String KEY_PREF_NOTIFICATION_SWITCH = "notification_switch_key";
         ListPreference  mListNotificationDays;
         SwitchPreference mSwitchPreferenceNotificationDays;
 
+        AlarmReceiver mAlarmReceiver = new AlarmReceiver();
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+
+
             //load preferences from xml resource
             addPreferencesFromResource(R.xml.preferences);
 
@@ -41,6 +65,13 @@ public class SettingsActivity extends PreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     //enable list according by checking old value of switch
                     mListNotificationDays.setEnabled(!mSwitchPreferenceNotificationDays.isChecked());
+                    //turn on or off alarm receiver
+                    if (!mSwitchPreferenceNotificationDays.isChecked()){
+                        mAlarmReceiver.setAlarm(getActivity());
+                    } else {
+                        mAlarmReceiver.cancelAlarm(getActivity());
+                    }
+
                     return true;
                 }
             };

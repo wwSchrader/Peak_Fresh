@@ -1,0 +1,63 @@
+package com.example.android.peakfresh;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.WakefulBroadcastReceiver;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Calendar;
+
+/**
+ * Created by Warren on 10/21/2016.
+ */
+
+public class AlarmReceiver extends WakefulBroadcastReceiver {
+    private AlarmManager mAlarmManager;
+    private PendingIntent alarmIntent;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Intent service = new Intent(context, NotificationService.class);
+        String message = "Hellooo, alrm worked ----";
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.v("onReceive", "Alarm onReceive triggered");
+        //starts service and keeps awake while launching
+        startWakefulService(context, service);
+    }
+
+    public void setAlarm(Context context) {
+        mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        //set alarm to fire at 9am
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 30);
+
+        //repeat alarm once a day
+        mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 60000, 60000, alarmIntent);
+        Log.v("setAlarm", "Alarm set!");
+        ComponentName alarmReceiver = new ComponentName(context, BootReceiver.class);
+        PackageManager pm = context.getPackageManager();
+
+        pm.setComponentEnabledSetting(alarmReceiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+    }
+
+    public void cancelAlarm(Context context){
+
+        if (mAlarmManager != null) {
+            Log.v("cancelAlarm", "Alarm canceled!");
+            mAlarmManager.cancel(alarmIntent);
+        }
+    }
+}
