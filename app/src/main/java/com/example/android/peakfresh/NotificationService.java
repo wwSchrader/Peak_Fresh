@@ -2,6 +2,7 @@ package com.example.android.peakfresh;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.util.Log;
 
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
+import com.example.android.peakfresh.ui.Main_Activity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,6 +48,7 @@ public class NotificationService extends IntentService {
         expirationDate.set(Calendar.SECOND, 0);
         expirationDate.set(Calendar.MILLISECOND, 0);
 
+        //roll forward caledar date by user selected notification days
         expirationDate.add(Calendar.DAY_OF_YEAR, notificationDays);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
@@ -54,6 +57,7 @@ public class NotificationService extends IntentService {
 
         Log.v("Notification Day", notificationDate);
 
+        //return results for selected notificaiton date
         queryCursor = getContentResolver().query(
                 ProductContentProvider.Products.PRODUCTS_URI,
                 null,
@@ -76,6 +80,11 @@ public class NotificationService extends IntentService {
                     .setContentTitle("Expiring Product")
                     .setContentText("You have " + numMessage + " products expiring on ")
                     .setSmallIcon(R.mipmap.ic_launcher);
+
+            //intent and pending intent to launch main activity when notification is selected
+            Intent resultIntent = new Intent(this, Main_Activity.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1 , resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
 
             mNotificationManager.notify(notifyId, mBuilder.build());
         }
