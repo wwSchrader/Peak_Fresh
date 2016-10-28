@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.Utility;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 
@@ -73,6 +74,10 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
+        //initialize Google Mobile ads
+        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
+
         return true;
     }
 

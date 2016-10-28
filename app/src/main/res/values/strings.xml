@@ -15,4 +15,7 @@
     <string name="type_in_a_category_name">Type in a category name</string>
 
     <string name="intent_product_id" translatable="false">intent-product-id</string>
+
+    <!--test ad unit id-->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

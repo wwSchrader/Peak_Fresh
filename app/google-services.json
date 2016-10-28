@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "41269705165",
+    "firebase_url": "https://peak-fresh.firebaseio.com",
+    "project_id": "peak-fresh",
+    "storage_bucket": "peak-fresh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41269705165:android:b4afb2d85ad67caa",
+        "android_client_info": {
+          "package_name": "com.example.android.peakfresh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41269705165-g2qlq6tkcbf73l083u6dj9eksjmdem0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1IjzTw1dv52IjylLNrrTs1LqmoHNIp5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

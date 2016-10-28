@@ -28,6 +28,8 @@ import com.example.android.peakfresh.RecyclerViewItemClickListener;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperCallback;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -107,6 +109,11 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         ItemTouchHelper.Callback callback = new ProductTouchHelperCallback(mCursorAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        //load banner ad
+        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
