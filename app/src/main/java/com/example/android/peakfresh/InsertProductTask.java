@@ -3,6 +3,7 @@ package com.example.android.peakfresh;
 import android.app.Activity;
 import android.content.ContentProviderOperation;
 import android.content.Context;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.ui.Main_Fragment_List;
 import com.example.android.peakfresh.ui.NewProduct_Activity;
+import com.example.android.peakfresh.widget.WidgetAppProvider;
 
 import java.util.ArrayList;
 
@@ -95,6 +97,8 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
         }
         initQueryCursor.close();
 
+        updateWidgets();
+
         return null;
     }
 
@@ -105,5 +109,13 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
             Toast.makeText(mContext, "Product Added!", Toast.LENGTH_SHORT).show();
             mActivity.finish();
         }
+    }
+
+    private void updateWidgets() {
+
+        Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
+                .setPackage(mContext.getPackageName());
+        Log.v("Update widget", dataUpdatedIntent.getAction());
+        mContext.sendBroadcast(dataUpdatedIntent);
     }
 }

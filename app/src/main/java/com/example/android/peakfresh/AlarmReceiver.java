@@ -40,7 +40,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         //set alarm to fire at 9am
         calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.MINUTE, 0);
 
         //repeat alarm once a day
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);

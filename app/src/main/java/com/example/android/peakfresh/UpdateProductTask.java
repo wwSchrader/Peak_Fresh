@@ -2,11 +2,14 @@ package com.example.android.peakfresh;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
+import com.example.android.peakfresh.widget.WidgetAppProvider;
 
 /**
  * Created by Warren on 9/12/2016.
@@ -40,6 +43,21 @@ public class UpdateProductTask extends AsyncTask<String, Void, Void> {
                 selection,
                 productId
         );
+
+        updateWidgets();
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+
+        super.onPostExecute(aVoid);
+    }
+
+    private void updateWidgets() {
+        Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
+                .setPackage(mContext.getPackageName());
+        Log.v("Update widget", dataUpdatedIntent.getAction());
+        mContext.sendBroadcast(dataUpdatedIntent);
     }
 }

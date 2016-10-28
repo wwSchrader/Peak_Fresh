@@ -8,10 +8,11 @@
                      android:maxSdkVersion="18"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/peak_fresh_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
@@ -48,7 +49,7 @@
         <provider
             android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
             android:name=".data.generated.ProductContentProvider"
-            android:exported="false"/>
+            android:exported="true"/>
         <provider
             android:authorities="com.example.android.fileprovider"
             android:name="android.support.v4.content.FileProvider"
@@ -62,11 +63,28 @@
         <receiver android:name=".BootReceiver"
                   android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <receiver android:process=":remote" android:name=".AlarmReceiver" />
         <service android:name=".NotificationService" />
+
+        <receiver android:name=".widget.WidgetAppProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.example.android.peakfresh.app.ACTION_DATA_UPDATED"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget"/>
+        </receiver>
+
+        <service android:name=".widget.WidgetRemoteViewService"
+                 android:enabled="true"
+                 android:exported="true"
+                 android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

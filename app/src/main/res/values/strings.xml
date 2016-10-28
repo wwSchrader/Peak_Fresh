@@ -13,4 +13,6 @@
     <string name="share_element_transition_name">product_profile</string>
     <string name="settings">Settings</string>
     <string name="type_in_a_category_name">Type in a category name</string>
+
+    <string name="intent_product_id" translatable="false">intent-product-id</string>
 </resources>

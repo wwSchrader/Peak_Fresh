@@ -1,6 +1,7 @@
 package com.example.android.peakfresh;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import com.example.android.peakfresh.data.ProductContentProvider;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperAdapter;
 import com.example.android.peakfresh.touch_helper.ProductTouchHelperViewHolder;
 import com.example.android.peakfresh.ui.Detail_Fragment;
+import com.example.android.peakfresh.widget.WidgetAppProvider;
 
 /**
  * Created by Warren on 8/29/2016.
@@ -40,6 +42,7 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
         String productTitle = c.getString(c.getColumnIndex(ProductColumns.PRODUCT_NAME));
         mContext.getContentResolver().delete(ProductContentProvider.Products.withName(productTitle), null, null);
         notifyItemRemoved(position);
+        updateWidgets();
     }
 
 
@@ -98,5 +101,12 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
         View productView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_listing, parent, false);
         return new ViewHolder(productView);
+    }
+
+    private void updateWidgets() {
+        Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
+                .setPackage(mContext.getPackageName());
+        Log.v("Update widget", dataUpdatedIntent.getAction());
+        mContext.sendBroadcast(dataUpdatedIntent);
     }
 }
