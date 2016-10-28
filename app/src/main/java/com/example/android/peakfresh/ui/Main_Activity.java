@@ -18,14 +18,17 @@ import android.widget.Spinner;
 import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.Utility;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
-public class Main_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener{
+public class Main_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+        SharedPreferences.OnSharedPreferenceChangeListener{
 
     public static final String CATEGORY_SHARED_PREF_KEY = "category-key";
     private Object onItemSelectedListener;
     private boolean onItemSelectedListenerFlag;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -41,7 +44,11 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         }
         setContentView(R.layout.activity_main);
 
+        //initialize Google Mobile ads
+        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
 
+        //obtain firebaseAnayltics instance
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //Checking if activity is using fragment container
         if (findViewById(R.id.fragment_main_container) != null) {
@@ -75,8 +82,7 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        //initialize Google Mobile ads
-        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
+
 
         return true;
     }
