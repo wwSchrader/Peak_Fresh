@@ -18,4 +18,7 @@
 
     <!--test ad unit id-->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="camera_button">Camera Button</string>
+    <string name="title_button">Title Button</string>
+    <string name="expiration_button">Expiration Button</string>
 </resources>

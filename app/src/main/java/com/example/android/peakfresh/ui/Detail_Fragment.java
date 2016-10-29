@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -31,7 +32,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,8 +70,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private ArrayAdapter categoryArrayAdapter;
     ImageView mImageView;
     TextView mProduct_title, mExpirationSummary, mExpirationDate;
-    ImageButton mCameraButton, mTitleButton;
-    Button mCalendarButton, mDateButton;
+    ImageButton mCameraButton, mTitleButton, mDateButton;
     Spinner mCategorySpinner;
     private static String[] mProduct_ID_Array;
     private final static int LOADER_ID = 1;
@@ -135,7 +134,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }
         });
         mExpirationDate = (TextView) rootView.findViewById(R.id.product_expiration_date_detail);
-        mDateButton = (Button) rootView.findViewById(R.id.expiration_date_button);
+        mDateButton = (ImageButton) rootView.findViewById(R.id.expiration_date_button);
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +161,17 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
 
             }
         });
-        mCalendarButton = (Button) rootView.findViewById(R.id.add_to_calendar_button);
+
+        //setup add to calendar button
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.add_to_calendar_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   Intent intent = new Intent(mContext, NewProduct_Activity.class);
+                   startActivity(intent);
+               }
+        });
+
         mCategorySpinner = (Spinner) rootView.findViewById(R.id.category_spinner);
 
 

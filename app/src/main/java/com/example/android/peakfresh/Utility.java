@@ -87,7 +87,7 @@ public class Utility {
             }
             evaluatorDate.add(Calendar.DAY_OF_YEAR, 1);
             if (expirationDate.before(evaluatorDate)) {
-                return "Expires in six days on";
+                return "Expires in six days on:";
             }
             evaluatorDate.add(Calendar.DAY_OF_YEAR, 1);
             if (expirationDate.before(evaluatorDate)) {

@@ -26,7 +26,7 @@
             android:src="@drawable/camera_button"
             android:layout_gravity="top|end"
             android:background="@android:color/transparent"
-            android:contentDescription="Camera Button"/>
+            android:contentDescription="@string/camera_button"/>
     </FrameLayout>
 
     <FrameLayout
@@ -49,7 +49,7 @@
             android:layout_gravity="end|top"
             android:src="@drawable/edit_button"
             android:background="@android:color/transparent"
-            android:text="Title Button"/>
+            android:text="@string/title_button"/>
     </FrameLayout>
 
 
@@ -57,37 +57,65 @@
     <TextView
         android:id="@+id/expiration_summary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/product_expiration_date_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/expiration_date_button"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Expiration Button"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"/>
 
-    <Button
-        android:id="@+id/add_to_calendar_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/calendar_button"/>
+        android:orientation="horizontal"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/product_expiration_date_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"/>
+
+        <ImageButton
+            android:id="@+id/expiration_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@id/product_expiration_date_detail"
+            android:layout_alignTop="@id/product_expiration_date_detail"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_action_edit_dark"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
         <TextView
             android:id="@+id/category_textview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:text="Category:"
+            android:textSize="20sp"/>
 
         <Spinner
             android:id="@+id/category_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="20sp"/>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_to_calendar_button"
+        android:src="@drawable/ic_action_add_to_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:layout_gravity="bottom|end"/>
 
 </LinearLayout>
