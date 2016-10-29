@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -52,7 +53,10 @@ import com.example.android.peakfresh.data.ProductContentProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Warren on 9/8/2016.
@@ -83,6 +87,8 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     String[]  fromColumns = {ProductColumns.PRODUCT_CATEGORY};
     int[] toViews = {android.R.id.text1};
     boolean onItemSelectedListenerFlag = false;
+    Calendar expirationDateCalendar = Calendar.getInstance();
+    String productName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,7 +173,20 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         fab.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   Intent intent = new Intent(mContext, NewProduct_Activity.class);
+                   Intent intent = new Intent(Intent.ACTION_INSERT)
+                           .setData(CalendarContract.Events.CONTENT_URI)
+                           .putExtra(CalendarContract.Events.TITLE, productName+ " expires");
+                   //set beginning time and end time for calendar intent
+                   Calendar beginTime = expirationDateCalendar;
+                   beginTime.set(Calendar.HOUR_OF_DAY, 12);
+                   beginTime.set(Calendar.MINUTE, 0);
+                   intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis());
+
+                   //set end time
+                   Calendar endTime = beginTime;
+                   endTime.set(Calendar.HOUR_OF_DAY, 13);
+                   intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
+
                    startActivity(intent);
                }
         });
@@ -307,6 +326,19 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             mProduct_title.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)));
             mExpirationDate.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
             mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
+
+
+            try {
+                //setup calendar to be used in the add to calendar intent
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String dateFromDb = data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE));
+                expirationDateCalendar.setTime(simpleDateFormat.parse(dateFromDb));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            //set string as product name to be used in add to calendar intent
+            productName = data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME));
 
             //setup the view for the category spinner
             ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
