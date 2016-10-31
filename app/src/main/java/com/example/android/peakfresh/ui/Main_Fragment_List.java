@@ -39,6 +39,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     public static final String TAG = Main_Fragment_List.class.getSimpleName();
     public static final String INIT_DATABASE_KEY = "init";
+    private static final String PREFS_NAME = "initial-check";
 
 
     protected RecyclerView mRecyclerView;
@@ -59,10 +60,17 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         super.onCreate(savedInstanceState);
         mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
         mCategory  = getString(R.string.category_all);
-        if (savedInstanceState == null){
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(PREFS_NAME, 0);
+        if (savedInstanceState == null & !sharedPreferences.getBoolean(getString(R.string.init_activity_check), false)){
             //initialize database & add samples if there are none.
             InsertProductTask insertProductTask = new InsertProductTask(getActivity(), INIT_DATABASE_KEY);
             insertProductTask.execute();
+
+            //saves a value to shared preferences so sample products are not recreated
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(getString(R.string.init_activity_check), true);
+            editor.apply();
         }
     }
 

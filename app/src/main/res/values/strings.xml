@@ -24,4 +24,5 @@
     <string name="empty_database_message">No products in the database. Please add one.</string>
     <string name="empty_category_message">No products assigned to this category.</string>
     <string name="category_all">All</string>
+    <string name="init_activity_check">init-check</string>
 </resources>
