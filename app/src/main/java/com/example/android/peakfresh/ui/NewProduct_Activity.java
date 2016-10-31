@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -283,8 +282,14 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        newProductImage.setImageBitmap(bitmap);
+//        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+//        newProductImage.setImageBitmap(bitmap);
+
+        Glide.with(mContext)
+                .load(mCurrentPhotoPath)
+                .placeholder(R.mipmap.ic_launcher)
+                .fitCenter()
+                .into(newProductImage);
     }
 
     private void galleryAddPic() {
