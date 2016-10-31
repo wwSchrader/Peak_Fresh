@@ -85,7 +85,8 @@
         <service android:name=".NotificationService" />
 
         <receiver android:name=".widget.WidgetAppProvider"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="com.example.android.peakfresh.app.ACTION_DATA_UPDATED"/>
@@ -99,6 +100,7 @@
         <service android:name=".widget.WidgetRemoteViewService"
                  android:enabled="true"
                  android:exported="true"
+                 android:theme="@style/MainTheme"
                  android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
