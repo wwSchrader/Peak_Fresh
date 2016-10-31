@@ -21,4 +21,7 @@
     <string name="camera_button">Camera Button</string>
     <string name="title_button">Title Button</string>
     <string name="expiration_button">Expiration Button</string>
+    <string name="empty_database_message">No products in the database. Please add one.</string>
+    <string name="empty_category_message">No products assigned to this category.</string>
+    <string name="category_all">All</string>
 </resources>

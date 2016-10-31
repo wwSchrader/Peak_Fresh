@@ -20,6 +20,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.peakfresh.InsertProductTask;
 import com.example.android.peakfresh.ProductCursorAdapter;
@@ -42,9 +43,10 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     protected RecyclerView mRecyclerView;
     ArrayList<String> list = new ArrayList<>();
-    private String mCategory = "All";
+    private String mCategory;
     private static final int CURSOR_LOADER_ID = 0;
     private ProductCursorAdapter mCursorAdapter;
+    private TextView emptyTextViewMessage;
     private Context mContext;
     private ItemTouchHelper mItemTouchHelper;
     private Cursor mCursor;
@@ -56,7 +58,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
-
+        mCategory  = getString(R.string.category_all);
         if (savedInstanceState == null){
             //initialize database & add samples if there are none.
             InsertProductTask insertProductTask = new InsertProductTask(getActivity(), INIT_DATABASE_KEY);
@@ -110,6 +112,8 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        emptyTextViewMessage= (TextView) getActivity().findViewById(R.id.empty_view_text);
+
         //load banner ad
         AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -132,7 +136,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (mCategory.equals("All")){
+        if (mCategory.equals(getString(R.string.category_all))){
             //if category is "all" use null values for selection and selctionArgs
             return new CursorLoader(mContext, ProductContentProvider.Products.PRODUCTS_URI,
                     new String[]{ProductColumns._ID, ProductColumns.PRODUCT_NAME, ProductColumns.PRODUCT_EXPIRATION_DATE,
@@ -154,6 +158,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
         mCursor = data;
+        updateEmptyRecyclerView();
     }
 
     @Override
@@ -186,4 +191,27 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
         super.onPause();
     }
+
+    //message to display of recyclerview is empty
+    public void updateEmptyRecyclerView(){
+        //check to see if recyclerview is empty
+        if (mCursorAdapter.getItemCount() == 0){
+            String message;
+            mRecyclerView.setVisibility(View.GONE);
+            emptyTextViewMessage.setVisibility(View.VISIBLE);
+            //sets empty view message depending on category selected
+            if (mCategory.equals(getString(R.string.category_all))){
+                message = getString(R.string.empty_database_message);
+            } else {
+                message = getString(R.string.empty_category_message);
+            }
+
+            emptyTextViewMessage.setText(message);
+        } else {
+            //sets recylerview back to visible
+            mRecyclerView.setVisibility(View.VISIBLE);
+            emptyTextViewMessage.setVisibility(View.GONE);
+        }
+    }
+
 }
