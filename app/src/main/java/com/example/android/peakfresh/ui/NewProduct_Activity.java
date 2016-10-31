@@ -186,6 +186,18 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
                 return true;
 
             case R.id.action_accept:
+
+                if (productTitleEditTextField.getText().toString() == null){
+                    Toast.makeText(mContext, "Please fill out a name!", Toast.LENGTH_SHORT).show();
+                    return  false;
+                } else if (mCategory == null){
+                    Toast.makeText(mContext, "Please choose a category!", Toast.LENGTH_SHORT).show();
+                    return  false;
+                } else if (newDate.equals("null")){
+                    Toast.makeText(mContext, "Please choose an expiration date!", Toast.LENGTH_SHORT).show();
+                    return  false;
+                }
+
                 //User chose to accept new product, save in db and return to main activity
                 InsertProductTask insertProductTask = new InsertProductTask(this, ADD_PRODUCT_KEY);
                 insertProductTask.execute(
