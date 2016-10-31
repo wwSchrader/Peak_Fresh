@@ -21,35 +21,42 @@
         <ImageView
             android:id="@+id/new_product_image_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
         <Button
             android:id="@+id/new_product_camera_button_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Camera Button"/>
 
         <EditText
             android:id="@+id/edit_text_product_title_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter Product Name"
             android:inputType="text"/>
 
         <Button
             android:id="@+id/new_product_date_button_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="Set Date"/>
 
         <TextView
             android:id="@+id/new_product_expiration_date_activity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"/>
 
         <Spinner
             android:id="@+id/new_product_category_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 </ScrollView>

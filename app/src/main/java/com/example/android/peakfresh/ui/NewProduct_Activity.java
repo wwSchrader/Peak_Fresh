@@ -35,6 +35,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.peakfresh.InsertProductTask;
 import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.Utility;
@@ -100,6 +101,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         }
 
         newProductImage = (ImageView) findViewById(R.id.new_product_image_detail);
+
         newProductCameraButton = (Button) findViewById(R.id.new_product_camera_button_activity);
         newProductCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,15 +145,23 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
             //restore any images or dates
             if (savedInstanceState.getString(CURRENT_PHOTO_PATH) != null){
                 mCurrentPhotoPath = savedInstanceState.getString(CURRENT_PHOTO_PATH);
-                setPic();
+                Glide.with(mContext)
+                        .load(mCurrentPhotoPath)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .fitCenter()
+                        .into(newProductImage);
             }
             if (savedInstanceState.getString(CURRENT_EXP_DATE) != null){
                 newDate = savedInstanceState.getString(CURRENT_EXP_DATE);
                 newProductExpirationDateTextView.setText(newDate);
             }
         } else {
-            mCurrentPhotoPath = Utility.resourceToUri(mContext, R.mipmap.ic_launcher).toString();
-            setPic();
+            mCurrentPhotoPath = Utility.resourceToUri(mContext, R.drawable.icon_splash).toString();
+            Glide.with(mContext)
+                    .load(mCurrentPhotoPath)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .fitCenter()
+                    .into(newProductImage);
         }
     }
 
