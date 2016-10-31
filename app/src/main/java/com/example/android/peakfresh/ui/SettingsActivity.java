@@ -26,11 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id==android.R.id.home) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
