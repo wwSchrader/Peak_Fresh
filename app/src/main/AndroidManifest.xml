@@ -55,6 +55,12 @@
                 android:value=".ui.Main_Activity" />
         </activity>
 
+        <activity android:name=".ui.DeleteCategoryDialogActivity"
+                  android:label="Delete Categories"
+                  android:parentActivityName=".ui.SettingsActivity">
+
+        </activity>
+
         <provider
             android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
             android:name=".data.generated.ProductContentProvider"

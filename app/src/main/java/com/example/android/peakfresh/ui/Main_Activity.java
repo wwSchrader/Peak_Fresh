@@ -29,7 +29,7 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
     private Object onItemSelectedListener;
     private boolean onItemSelectedListenerFlag;
     private FirebaseAnalytics mFirebaseAnalytics;
-
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,14 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
         MenuItem item = menu.findItem(R.id.menuSort);
-        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+        spinner = (Spinner) MenuItemCompat.getActionView(item);
         //setup the view for the category spinner
+        refreshSpinner();
+
+        return true;
+    }
+
+    private void refreshSpinner(){
         ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, this, "main_screen");
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
@@ -81,10 +87,6 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         adapter.setDropDownViewResource(R.layout.category_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
-
-
-        return true;
     }
 
     @Override
@@ -121,6 +123,9 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
         //setting up listener for a key change
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
+        if (spinner != null){
+            refreshSpinner();
+        }
     }
 
     @Override

@@ -210,30 +210,35 @@ public class Utility {
         return editor.commit();
     }
 
-    public static boolean removeItemFromCategoryArray(String arrayName, Context mContext, String categoryToDelete) {
+    public static boolean removeItemFromCategoryArray(String arrayName, Context mContext, ArrayList<String> categoryToDelete) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
         int size = prefs.getInt(arrayName + "_size", 0);
+        int adjustedSize = size;
         SharedPreferences.Editor editor = prefs.edit();
         boolean isSuccessful = false;
-        int i;
 
-        for (i = 0; i < size; i++){
-            if (categoryToDelete.equals(prefs.getString(arrayName + "_" + i, null))){
-                editor.remove(prefs.getString(arrayName + "_" + i, null));
-                isSuccessful = editor.commit();
-                editor.putInt(arrayName + "_size", size - 1);
-                break;
+        for (int k = 0; k < categoryToDelete.size(); k++){
+            int i;
+            for (i = 0; i < size; i++){
+
+                if (categoryToDelete.get(k).equals(prefs.getString(arrayName + "_" + i, null))){
+                    editor.remove(prefs.getString(arrayName + "_" + i, null));
+                    isSuccessful = editor.commit();
+                    editor.putInt(arrayName + "_size", --adjustedSize);
+                    break;
+                }
+            }
+
+            if (isSuccessful){
+                for (int j = i; j < size; j++){
+                    //move up values in array
+                    editor.putString(arrayName + "_" + j, prefs.getString(arrayName + "_" + (j + 1), null));
+                    editor.remove(arrayName + "_" + (j + 1));
+                    editor.apply();
+                }
             }
         }
 
-        if (isSuccessful){
-            while (i < size){
-                //move up values in array
-                editor.putString(arrayName + "_" + i, prefs.getString(arrayName + "_" + (i + 1), null));
-                editor.remove(arrayName + "_" + (i + 1));
-                editor.apply();
-            }
-        }
         return editor.commit();
     }
 }

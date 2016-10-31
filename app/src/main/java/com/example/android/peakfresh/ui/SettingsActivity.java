@@ -1,5 +1,6 @@
 package com.example.android.peakfresh.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -43,6 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         public static final String KEY_PREF_NOTIFICATION_SWITCH = "notification_switch_key";
         ListPreference  mListNotificationDays;
         SwitchPreference mSwitchPreferenceNotificationDays;
+        Preference mDeleteCategories;
 
         AlarmReceiver mAlarmReceiver = new AlarmReceiver();
 
@@ -50,10 +52,19 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-
-
             //load preferences from xml resource
             addPreferencesFromResource(R.xml.preferences);
+
+            mDeleteCategories = findPreference("delete-categories");
+            Preference.OnPreferenceClickListener onClickListener = new Preference.OnPreferenceClickListener(){
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), DeleteCategoryDialogActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            };
+            mDeleteCategories.setOnPreferenceClickListener(onClickListener);
 
             mSwitchPreferenceNotificationDays = (SwitchPreference) findPreference("pref_key_switch");
             mListNotificationDays = (ListPreference) findPreference("pref_key_days_selected");
