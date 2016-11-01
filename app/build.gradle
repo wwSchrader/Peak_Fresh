@@ -7,7 +7,7 @@ android {
         Release {
             keyAlias 'PasswordKey'
             keyPassword 'password'
-            storeFile file('C:/Users/Warren/AndroidStudioProjects/PeakFresh/keystore.jks')
+            storeFile file('../keystore.jks')
             storePassword 'password'
         }
     }
