@@ -169,7 +169,7 @@ public class Utility {
     public static boolean saveCategoryArray(String[] array, String arrayName, Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(arrayName + "_size", array.length);
+        editor.putInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), array.length);
         for (int i = 0; i < array.length; i++)
             editor.putString(arrayName + "_" + i, array[i]);
         return editor.commit();
@@ -177,7 +177,7 @@ public class Utility {
 
     public static ArrayList<String> loadCategoryArray(String arrayName, Context mContext, String loadType) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
-        int size = prefs.getInt(arrayName + "_size", 0);
+        int size = prefs.getInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), 0);
         ArrayList<String> arrayList= new ArrayList<String>();
 
         for(int i = 0; i < size; i++) {
@@ -201,18 +201,18 @@ public class Utility {
 
     public static boolean addItemToCategoryArray(String arrayName, Context mContext, String newCategory) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
-        int size = prefs.getInt(arrayName + "_size", 0);
+        int size = prefs.getInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), 0);
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(arrayName + "_" + size, newCategory);
         size++;
-        editor.putInt(arrayName + "_size", size);
+        editor.putInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), size);
         return editor.commit();
     }
 
     public static boolean removeItemFromCategoryArray(String arrayName, Context mContext, ArrayList<String> categoryToDelete) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
-        int size = prefs.getInt(arrayName + "_size", 0);
+        int size = prefs.getInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), 0);
         int adjustedSize = size;
         SharedPreferences.Editor editor = prefs.edit();
         boolean isSuccessful = false;
@@ -224,7 +224,7 @@ public class Utility {
                 if (categoryToDelete.get(k).equals(prefs.getString(arrayName + "_" + i, null))){
                     editor.remove(prefs.getString(arrayName + "_" + i, null));
                     isSuccessful = editor.commit();
-                    editor.putInt(arrayName + "_size", --adjustedSize);
+                    editor.putInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), --adjustedSize);
                     break;
                 }
             }

@@ -37,7 +37,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public static class SettingsFragment extends PreferenceFragment {
-        public static final String KEY_PREF_NOTIFICATION_SWITCH = "notification_switch_key";
         ListPreference  mListNotificationDays;
         SwitchPreference mSwitchPreferenceNotificationDays;
         Preference mDeleteCategories;
@@ -51,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
             //load preferences from xml resource
             addPreferencesFromResource(R.xml.preferences);
 
-            mDeleteCategories = findPreference("delete-categories");
+            mDeleteCategories = findPreference(this.getString(R.string.delete_categories_key));
             Preference.OnPreferenceClickListener onClickListener = new Preference.OnPreferenceClickListener(){
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -62,8 +61,8 @@ public class SettingsActivity extends AppCompatActivity {
             };
             mDeleteCategories.setOnPreferenceClickListener(onClickListener);
 
-            mSwitchPreferenceNotificationDays = (SwitchPreference) findPreference("pref_key_switch");
-            mListNotificationDays = (ListPreference) findPreference("pref_key_days_selected");
+            mSwitchPreferenceNotificationDays = (SwitchPreference) findPreference(this.getString(R.string.pref_switch_key));
+            mListNotificationDays = (ListPreference) findPreference(this.getString(R.string.days_selected_key));
 
             //enable or disable notification days list according to state of notification switch
             mListNotificationDays.setEnabled(mSwitchPreferenceNotificationDays.isChecked());

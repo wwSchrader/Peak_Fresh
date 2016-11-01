@@ -29,13 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Camera Button"/>
+            android:text="@string/camera_button_text"/>
 
         <EditText
             android:id="@+id/edit_text_product_title_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Product Name"
+            android:hint="@string/product_name_button"
             android:inputType="text"/>
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Set Date"/>
+            android:text="@string/new_product_date_button"/>
 
         <TextView
             android:id="@+id/new_product_expiration_date_activity"

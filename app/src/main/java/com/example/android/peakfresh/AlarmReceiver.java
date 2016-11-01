@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -23,9 +22,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, NotificationService.class);
-        String message = "Hellooo, alrm worked ----";
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.v("onReceive", "Alarm onReceive triggered");
         //starts service and keeps awake while launching
         startWakefulService(context, service);
     }
@@ -44,7 +40,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         //repeat alarm once a day
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);
-        Log.v("setAlarm", "Alarm set!");
         ComponentName alarmReceiver = new ComponentName(context, BootReceiver.class);
         PackageManager pm = context.getPackageManager();
 
@@ -56,7 +51,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void cancelAlarm(Context context){
 
         if (mAlarmManager != null) {
-            Log.v("cancelAlarm", "Alarm canceled!");
             mAlarmManager.cancel(alarmIntent);
         }
     }

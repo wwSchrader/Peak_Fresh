@@ -84,7 +84,6 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
 
         //get string path and converts into int resource id
         String photoUri = cursor.getString(cursor.getColumnIndex(ProductColumns.PRODUCT_ICON));
-        Log.v("BindView", " " + photoUri);
         Glide.with(mContext)
                 .load(photoUri)
                 .placeholder(R.mipmap.ic_launcher)
@@ -97,7 +96,6 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
         View productView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_listing, parent, false);
         return new ViewHolder(productView);
@@ -106,7 +104,6 @@ public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCurso
     private void updateWidgets() {
         Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
                 .setPackage(mContext.getPackageName());
-        Log.v("Update widget", dataUpdatedIntent.getAction());
         mContext.sendBroadcast(dataUpdatedIntent);
     }
 }

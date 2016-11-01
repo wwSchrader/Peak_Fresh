@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_margin="16dp"
-            android:text="Category:"
+            android:text="@string/category_textview"
             android:textSize="20sp"/>
 
         <Spinner

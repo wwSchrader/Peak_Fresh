@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
@@ -57,7 +56,6 @@ public class UpdateProductTask extends AsyncTask<String, Void, Void> {
     private void updateWidgets() {
         Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
                 .setPackage(mContext.getPackageName());
-        Log.v("Update widget", dataUpdatedIntent.getAction());
         mContext.sendBroadcast(dataUpdatedIntent);
     }
 }

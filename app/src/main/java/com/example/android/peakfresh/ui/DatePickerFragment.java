@@ -13,7 +13,6 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment{
     private DatePickerDialog.OnDateSetListener onDateSet;
-    public static final String PRODUCT_ID = "product_id";
 
     @NonNull
     @Override

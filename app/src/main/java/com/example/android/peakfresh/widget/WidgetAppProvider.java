@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.android.peakfresh.R;
@@ -30,7 +29,6 @@ public class WidgetAppProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.v(LOG_TAG, "onRecive triggered " + intent.getAction());
         if (WIDGET_PRODUCT_UPDATE.equals(intent.getAction())){
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
@@ -47,9 +45,7 @@ public class WidgetAppProvider extends AppWidgetProvider {
 
         appWidgetIds = appWidgetManager.getAppWidgetIds(
                 new ComponentName(context, getClass()));
-        Log.v(LOG_TAG, "onUpdate triggered");
         for (int i = 0; i < appWidgetIds.length; ++i){
-            Log.v(LOG_TAG, "onUpdate triggered");
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_collection);
 

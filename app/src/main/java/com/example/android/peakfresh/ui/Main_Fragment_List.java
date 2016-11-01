@@ -52,7 +52,6 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     private ItemTouchHelper mItemTouchHelper;
     private Cursor mCursor;
     private boolean mIsLargeLayout;
-    private int numberOfColumns = 2;
 
 
     @Override

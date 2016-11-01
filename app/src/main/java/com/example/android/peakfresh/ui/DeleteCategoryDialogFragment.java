@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.example.android.peakfresh.R;
 import com.example.android.peakfresh.Utility;
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
@@ -52,7 +53,7 @@ public class DeleteCategoryDialogFragment extends DialogFragment {
         unusedCategoryrArray = categoryArrayList.toArray(unusedCategoryrArray);
         selectedItems = new ArrayList<String>();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Delete unused categories")
+        builder.setTitle(R.string.delete_categories_dialog_title)
             .setMultiChoiceItems(unusedCategoryrArray, null, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i, boolean b) {
@@ -63,14 +64,14 @@ public class DeleteCategoryDialogFragment extends DialogFragment {
                     }
                 }
             })
-        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.delete_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Utility.removeItemFromCategoryArray(Utility.CATEGORY_ARRAY, getContext(), selectedItems);
                 getActivity().finish();
             }
         })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 getActivity().finish();

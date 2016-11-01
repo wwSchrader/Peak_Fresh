@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Binder;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -106,8 +105,6 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Intent fillInIntent = new Intent();
         fillInIntent.putExtra(Detail_Fragment.PRODUCT_ID_KEY, mCursor.getInt(mCursor.getColumnIndex(ProductColumns._ID)));
         remoteViews.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
-
-        Log.d("RemoteView", "ProductAdded!");
 
         return remoteViews;
     }

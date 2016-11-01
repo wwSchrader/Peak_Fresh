@@ -38,7 +38,7 @@ public class NotificationService extends IntentService {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String notificationDaysString = sharedPreferences.getString("pref_key_days_selected", "0");
+        String notificationDaysString = sharedPreferences.getString(getString(R.string.pref_key_days_selected), "0");
 
         int notificationDays = Integer.parseInt(notificationDaysString);
 
@@ -54,8 +54,6 @@ public class NotificationService extends IntentService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
 
         String notificationDate = dateFormat.format(expirationDate.getTime());
-
-        Log.v("Notification Day", notificationDate);
 
         //return results for selected notificaiton date
         queryCursor = getContentResolver().query(
@@ -77,7 +75,7 @@ public class NotificationService extends IntentService {
             }
 
             mBuilder = new NotificationCompat.Builder(this)
-                    .setContentTitle("Expiring Product")
+                    .setContentTitle(getString(R.string.notification_title))
                     .setContentText("You have " + numMessage + " products expiring on ")
                     .setSmallIcon(R.mipmap.ic_launcher);
 
@@ -88,12 +86,6 @@ public class NotificationService extends IntentService {
 
             mNotificationManager.notify(notifyId, mBuilder.build());
         }
-
-
-
-
-
-        Log.d("Notification service", "Notification triggered!");
 
         AlarmReceiver.completeWakefulIntent(intent);
     }

@@ -86,7 +86,6 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
             builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, param[2]);
             builder.withValue(ProductColumns.PRODUCT_ICON, param[3]);
             batchOperations.add(builder.build());
-            Log.d("AddProduct", "Product added!");
 
             try {
                 mContext.getContentResolver().applyBatch(ProductContentProvider.AUTHORITY, batchOperations);

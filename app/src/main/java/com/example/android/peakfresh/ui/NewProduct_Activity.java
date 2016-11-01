@@ -187,13 +187,13 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
             case R.id.action_accept:
 
                 if (productTitleEditTextField.getText().toString() == null){
-                    Toast.makeText(mContext, "Please fill out a name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.missing_name_toast, Toast.LENGTH_SHORT).show();
                     return  false;
                 } else if (mCategory == null){
-                    Toast.makeText(mContext, "Please choose a category!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.missing_category_toast, Toast.LENGTH_SHORT).show();
                     return  false;
                 } else if (newDate.equals("null")){
-                    Toast.makeText(mContext, "Please choose an expiration date!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.missing_expiration_date_toast, Toast.LENGTH_SHORT).show();
                     return  false;
                 }
 
@@ -255,7 +255,6 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v("OnActivityResult", "onActivityResultTrigged");
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             setPic();
             galleryAddPic();
@@ -302,7 +301,6 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Log.v("onDateSet", "onDateSetTriggered");
 
         int adjMonth = month + 1;
 
@@ -314,16 +312,15 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (onItemSelectedListenerFlag){
-            if(parent.getItemAtPosition(position).toString().equals("Custom")){
+            if(parent.getItemAtPosition(position).toString().equals(getString(R.string.custom_category))){
                 //launch fragment to add new category
                 AddCategoryDialogFragment categoryDialogFragment = new AddCategoryDialogFragment();
-                categoryDialogFragment.show(getSupportFragmentManager(), "newCategory");
+                categoryDialogFragment.show(getSupportFragmentManager(), getString(R.string.new_category));
 
             }else {
                 mCategory = parent.getItemAtPosition(position).toString();
                 spinnerSelection = parent.getSelectedItemPosition();
             }
-            Log.v("onItemSelected", "triggered");
         } else {
             //if it's the first time, set flag to true to run code next time
             onItemSelectedListenerFlag = true;

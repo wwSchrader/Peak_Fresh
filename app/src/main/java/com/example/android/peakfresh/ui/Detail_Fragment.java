@@ -84,8 +84,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private String mCurrentPhotoPath;
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_POSITION = "image_position";
-    String[]  fromColumns = {ProductColumns.PRODUCT_CATEGORY};
-    int[] toViews = {android.R.id.text1};
     boolean onItemSelectedListenerFlag = false;
     Calendar expirationDateCalendar = Calendar.getInstance();
     String productName;
@@ -125,10 +123,10 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         mTitleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialDialog.Builder(mContext).title("Name Product")
-                        .content("Name the product")
+                new MaterialDialog.Builder(mContext).title(R.string.new_product_dialog_title)
+                        .content(R.string.new_product_dialog_content)
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("Enter product name", "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.new_product_name), "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 UpdateProductTask updateProductTask = new UpdateProductTask(mContext,
@@ -350,10 +348,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             mCategorySpinner.setSelection(categoryArrayAdapter.getPosition(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY))), false);
             mCategorySpinner.setOnItemSelectedListener(this);
 
-            Log.v("onLoadFinished", data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)) + " " +
-                    data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)) + " " +
-                    data.getString(data.getColumnIndex(ProductColumns.PRODUCT_CATEGORY)));
-
             Glide.with(getContext())
                     .load(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_ICON)))
                     .placeholder(R.mipmap.ic_launcher)
@@ -368,14 +362,12 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 scheduleStartPostponedTransition(mImageView);
-                                Log.v("OnLoadFinished", "scheduleStartPostponedTransition triggered");
                             }
                             return false;
                         }
                     })
                     .into(mImageView);
         }
-        Log.v("OnLoadFinished", "Finished method");
     }
 
     private void scheduleStartPostponedTransition(final View sharedElement) {
@@ -385,7 +377,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                     public boolean onPreDraw() {
                         sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Log.d("StartTransition", "Transition started");
                             getActivity().supportStartPostponedEnterTransition();
                         }
                         return true;
@@ -422,7 +413,6 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             }else {
                 updateProductCategory(parent.getItemAtPosition(position).toString());
             }
-            Log.v("onItemSelected", "triggered");
         } else {
             //if it's the first time, set flag to true to run code next time
             onItemSelectedListenerFlag = true;
@@ -445,13 +435,13 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, category);
         updateProductCategory(category);
 
-        Toast.makeText(mContext, "Category Added!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.category_added, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDialogNegativeClick() {
         //restart the loader to reset the spinner
         getLoaderManager().restartLoader(LOADER_ID, null, this);
-        Toast.makeText(mContext, "Action Canceled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.action_canceled, Toast.LENGTH_SHORT).show();
     }
 }
