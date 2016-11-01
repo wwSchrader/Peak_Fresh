@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.example.android.peakfresh"
+<manifest package="com.wwschrader.android.peakfresh"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.CAMERA"
@@ -19,7 +19,7 @@
         android:theme="@style/MainTheme">
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.wwschrader.android.peakfresh.ui.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,46 +27,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Main_Activity">
+        <activity android:name="com.wwschrader.android.peakfresh.ui.Main_Activity">
 
         </activity>
 
-        <activity android:name=".ui.Detail_Activity"
+        <activity android:name="com.wwschrader.android.peakfresh.ui.Detail_Activity"
                   android:label="@string/title_activity_detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Main_Activity" />
+                android:value="com.wwschrader.android.peakfresh.ui.Main_Activity" />
         </activity>
 
-        <activity android:name=".ui.NewProduct_Activity"
+        <activity android:name="com.wwschrader.android.peakfresh.ui.NewProduct_Activity"
                   android:label="@string/title_newProduct_Activity"
                   android:theme="@style/DialogTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Main_Activity" />
+                android:value="com.wwschrader.android.peakfresh.ui.Main_Activity" />
         </activity>
 
-        <activity android:name=".ui.SettingsActivity"
+        <activity android:name="com.wwschrader.android.peakfresh.ui.SettingsActivity"
                   android:label="@string/settings_title"
-                  android:parentActivityName=".ui.Main_Activity"
+                  android:parentActivityName="com.wwschrader.android.peakfresh.ui.Main_Activity"
                   android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Main_Activity" />
+                android:value="com.wwschrader.android.peakfresh.ui.Main_Activity" />
         </activity>
 
-        <activity android:name=".ui.DeleteCategoryDialogActivity"
+        <activity android:name="com.wwschrader.android.peakfresh.ui.DeleteCategoryDialogActivity"
                   android:label="@string/delete_categories_label"
-                  android:parentActivityName=".ui.SettingsActivity">
+                  android:parentActivityName="com.wwschrader.android.peakfresh.ui.SettingsActivity">
 
         </activity>
 
         <provider
-            android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
-            android:name=".data.generated.ProductContentProvider"
+            android:authorities="com.wwschrader.android.peakfresh.data.ProductContentProvider"
+            android:name="com.wwschrader.android.peakfresh.data.generated.ProductContentProvider"
             android:exported="false"/>
         <provider
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="com.wwschrader.android.fileprovider"
             android:name="android.support.v4.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -75,16 +75,16 @@
                     android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".BootReceiver"
+        <receiver android:name="com.wwschrader.android.peakfresh.BootReceiver"
                   android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <receiver android:process=":remote" android:name=".AlarmReceiver" />
-        <service android:name=".NotificationService" />
+        <receiver android:process=":remote" android:name="com.wwschrader.android.peakfresh.AlarmReceiver" />
+        <service android:name="com.wwschrader.android.peakfresh.NotificationService" />
 
-        <receiver android:name=".widget.WidgetAppProvider"
+        <receiver android:name="com.wwschrader.android.peakfresh.widget.WidgetAppProvider"
             android:exported="true"
             android:theme="@style/MainTheme">
             <intent-filter>
@@ -97,7 +97,7 @@
                 android:resource="@xml/widget"/>
         </receiver>
 
-        <service android:name=".widget.WidgetRemoteViewService"
+        <service android:name="com.wwschrader.android.peakfresh.widget.WidgetRemoteViewService"
                  android:enabled="true"
                  android:exported="true"
                  android:theme="@style/MainTheme"
