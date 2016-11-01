@@ -15,7 +15,7 @@ public final class ProductContentProvider {
 
     public static final String AUTHORITY = "com.example.android.peakfresh.data.ProductContentProvider";
 
-    static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     interface Path{
         String PRODUCTS = "products";

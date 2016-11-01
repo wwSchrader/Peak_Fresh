@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ import com.example.android.peakfresh.widget.WidgetAppProvider;
 public class ProductCursorAdapter extends CursorRecyclerViewAdapter<ProductCursorAdapter.ViewHolder>
     implements ProductTouchHelperAdapter{
 
-    private static Context mContext;
+    private Context mContext;
     private static Typeface robotoLight;
     public ProductCursorAdapter(Context context, Cursor cursor){
         super(context, cursor);

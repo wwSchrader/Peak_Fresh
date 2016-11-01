@@ -199,7 +199,7 @@ public class Utility {
         return arrayList;
     }
 
-    public static boolean addItemToCategoryArray(String arrayName, Context mContext, String newCategory) {
+    public static void addItemToCategoryArray(String arrayName, Context mContext, String newCategory) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
         int size = prefs.getInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), 0);
 
@@ -207,10 +207,10 @@ public class Utility {
         editor.putString(arrayName + "_" + size, newCategory);
         size++;
         editor.putInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), size);
-        return editor.commit();
+        editor.apply();
     }
 
-    public static boolean removeItemFromCategoryArray(String arrayName, Context mContext, ArrayList<String> categoryToDelete) {
+    public static void removeItemFromCategoryArray(String arrayName, Context mContext, ArrayList<String> categoryToDelete) {
         SharedPreferences prefs = mContext.getSharedPreferences(SHARED_PREF_CATEGORY_ARRAY_PREF, 0);
         int size = prefs.getInt(arrayName + mContext.getString(R.string.categor_shared_pref_modifier), 0);
         int adjustedSize = size;
@@ -239,6 +239,6 @@ public class Utility {
             }
         }
 
-        return editor.commit();
+        editor.commit();
     }
 }

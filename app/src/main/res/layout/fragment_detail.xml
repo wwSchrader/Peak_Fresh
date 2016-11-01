@@ -11,13 +11,14 @@
             android:id="@+id/product_icon_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/image_content_description"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/gradient_scrim"
-            android:id="@+id/view"/>
+            />
 
         <ImageButton
             android:id="@+id/camera_button"
@@ -49,7 +50,8 @@
             android:layout_gravity="end|top"
             android:src="@drawable/edit_button"
             android:background="@android:color/transparent"
-            android:text="@string/title_button"/>
+            android:text="@string/title_button"
+            android:contentDescription="@string/title_edit_button"/>
     </FrameLayout>
 
 
@@ -80,10 +82,12 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_toRightOf="@id/product_expiration_date_detail"
+            android:layout_toEndOf="@id/product_expiration_date_detail"
             android:layout_alignTop="@id/product_expiration_date_detail"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_action_edit_dark"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/expiration_date_edit_button"
             />
     </RelativeLayout>
 
@@ -93,7 +97,6 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
         <TextView
-            android:id="@+id/category_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

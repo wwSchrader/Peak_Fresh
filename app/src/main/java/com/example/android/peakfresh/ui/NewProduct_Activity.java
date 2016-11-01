@@ -57,11 +57,12 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     private static final String CURRENT_EXP_DATE = "currentExpDate";
     public static final String ADD_PRODUCT_KEY = "addProduct";
 
-    ImageView newProductImage;
-    Button newProductCameraButton, newProductDateButton;
-    EditText productTitleEditTextField;
-    TextView newProductExpirationDateTextView;
-    Spinner mCategorySpinner;
+    private ImageView newProductImage;
+    private Button newProductCameraButton;
+    private Button newProductDateButton;
+    private EditText productTitleEditTextField;
+    private TextView newProductExpirationDateTextView;
+    private Spinner mCategorySpinner;
     private String mCurrentPhotoPath, mCategory;
     private boolean onItemSelectedListenerFlag;
     private String[] mProduct_ID_Array;
@@ -165,12 +166,6 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     }
 
     @Override
-    protected void onResume() {
-
-        super.onResume();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_product_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -226,7 +221,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         super.onSaveInstanceState(outState);
     }
 
-    public void takePicture(){
+    private void takePicture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //Ensuring camera activity can handle intent
         if (takePictureIntent.resolveActivity(mContext.getPackageManager()) != null) {

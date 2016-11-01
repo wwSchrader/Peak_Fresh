@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.example.android.peakfresh.data.ProductColumns;
 import com.example.android.peakfresh.data.ProductContentProvider;
@@ -25,9 +24,9 @@ import java.util.Calendar;
 public class NotificationService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
-    android.support.v4.app.NotificationCompat.Builder mBuilder;
+    private android.support.v4.app.NotificationCompat.Builder mBuilder;
 
-    Cursor queryCursor;
+    private Cursor queryCursor;
 
     public NotificationService() {
         super("NotificationService");

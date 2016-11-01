@@ -15,8 +15,8 @@ import com.example.android.peakfresh.widget.WidgetAppProvider;
  */
 public class UpdateProductTask extends AsyncTask<String, Void, Void> {
 
-    Context mContext;
-    int count;
+    private Context mContext;
+    private int count;
     Uri productUri;
     private String newValue, selection, productColumn;
     private String[] productId;

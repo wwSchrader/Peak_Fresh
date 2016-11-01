@@ -9,7 +9,7 @@ import android.content.Intent;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    AlarmReceiver mAlarmReceiver = new AlarmReceiver();
+    private AlarmReceiver mAlarmReceiver = new AlarmReceiver();
 
     @Override
     public void onReceive(Context context, Intent intent) {

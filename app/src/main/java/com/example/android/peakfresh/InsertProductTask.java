@@ -23,9 +23,9 @@ import java.util.ArrayList;
  * Created by Warren on 8/31/2016.
  */
 public class InsertProductTask extends AsyncTask<String, Void, Void> {
-    Context mContext;
-    Activity mActivity;
-    Cursor initQueryCursor;
+    private Context mContext;
+    private Activity mActivity;
+    private Cursor initQueryCursor;
     private String[] mColumns = {"_id"};
     private String addKey;
 

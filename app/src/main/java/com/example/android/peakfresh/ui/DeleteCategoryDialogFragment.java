@@ -20,9 +20,10 @@ import java.util.ArrayList;
  */
 
 public class DeleteCategoryDialogFragment extends DialogFragment {
-    ArrayList<String> categoryArrayList, selectedItems;
-    String[] unusedCategoryrArray;
-    Cursor mCursor;
+    private ArrayList<String> categoryArrayList;
+    private ArrayList<String> selectedItems;
+    private String[] unusedCategoryrArray;
+    private Cursor mCursor;
 
     @NonNull
     @Override

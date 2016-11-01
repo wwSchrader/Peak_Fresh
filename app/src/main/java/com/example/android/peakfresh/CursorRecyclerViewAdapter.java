@@ -52,7 +52,7 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
         super.setHasStableIds(true);
     }
 
-    public abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
+    protected abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
 
     @Override
     public void onBindViewHolder(VH viewHolder, int position) {
@@ -66,9 +66,9 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
         onBindViewHolder(viewHolder, mCursor);
     }
 
-    public Cursor swapCursor(Cursor newCursor){
+    public void swapCursor(Cursor newCursor){
         if (newCursor == mCursor){
-            return null;
+            return;
         }
         final Cursor oldCursor = mCursor;
         if (oldCursor != null && mDataSetObserver != null){
@@ -87,7 +87,6 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
             dataIsValid = false;
             notifyDataSetChanged();
         }
-        return oldCursor;
     }
 
     private class NotifyingDataSetObserver extends DataSetObserver{

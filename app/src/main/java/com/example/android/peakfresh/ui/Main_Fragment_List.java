@@ -42,7 +42,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     private static final String PREFS_NAME = "initial-check";
 
 
-    protected RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     ArrayList<String> list = new ArrayList<>();
     private String mCategory;
     private static final int CURSOR_LOADER_ID = 0;
@@ -200,7 +200,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
     }
 
     //message to display of recyclerview is empty
-    public void updateEmptyRecyclerView(){
+    private void updateEmptyRecyclerView(){
         //check to see if recyclerview is empty
         if (mCursorAdapter.getItemCount() == 0){
             String message;

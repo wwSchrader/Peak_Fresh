@@ -64,7 +64,7 @@
         <provider
             android:authorities="com.example.android.peakfresh.data.ProductContentProvider"
             android:name=".data.generated.ProductContentProvider"
-            android:exported="true"/>
+            android:exported="false"/>
         <provider
             android:authorities="com.example.android.fileprovider"
             android:name="android.support.v4.content.FileProvider"

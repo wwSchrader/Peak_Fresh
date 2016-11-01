@@ -19,8 +19,8 @@ import com.example.android.peakfresh.R;
  */
 
 public class AddCategoryDialogFragment extends DialogFragment {
-    EditText newCategory;
-    CategoryDialogListener mCategoryDialogListener;
+    private EditText newCategory;
+    private CategoryDialogListener mCategoryDialogListener;
 
     public interface CategoryDialogListener {
         void onDialogPositiveClick(String category);

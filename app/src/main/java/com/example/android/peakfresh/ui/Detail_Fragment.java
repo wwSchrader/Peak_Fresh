@@ -72,21 +72,25 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     private Context mContext;
     private int mProduct_Id;
     private ArrayAdapter categoryArrayAdapter;
-    ImageView mImageView;
-    TextView mProduct_title, mExpirationSummary, mExpirationDate;
-    ImageButton mCameraButton, mTitleButton, mDateButton;
-    Spinner mCategorySpinner;
+    private ImageView mImageView;
+    private TextView mProduct_title;
+    private TextView mExpirationSummary;
+    private TextView mExpirationDate;
+    private ImageButton mCameraButton;
+    private ImageButton mTitleButton;
+    private ImageButton mDateButton;
+    private Spinner mCategorySpinner;
     private static String[] mProduct_ID_Array;
     private final static int LOADER_ID = 1;
     private final static int LOADER_ID_SPINNER = 2;
     public final static String PRODUCT_ID_KEY = "Product_Id";
-    static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
+    private static final String CURRENT_PHOTO_PATH = "currentPhotoPath";
     private String mCurrentPhotoPath;
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_POSITION = "image_position";
-    boolean onItemSelectedListenerFlag = false;
-    Calendar expirationDateCalendar = Calendar.getInstance();
-    String productName;
+    private boolean onItemSelectedListenerFlag = false;
+    private Calendar expirationDateCalendar = Calendar.getInstance();
+    private String productName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -202,13 +206,10 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             int adjMonth = month + 1;
 
             String newDate = adjMonth + "/" + day + "/" + year;
-            updateDate(newDate);
         }
     };
 
-    public void updateDate(String expirationDate){
 
-    }
 
     //Handles thumbnail from taking picture
     @Override
@@ -229,7 +230,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    public void takePicture(){
+    private void takePicture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //Ensuring camera activity can handle intent
         if (takePictureIntent.resolveActivity(mContext.getPackageManager()) != null) {
@@ -419,7 +420,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    public void updateProductCategory(String item){
+    private void updateProductCategory(String item){
         UpdateProductTask updateProductTask = new UpdateProductTask(getContext(), mProduct_ID_Array,
                 item, ProductColumns.PRODUCT_CATEGORY);
         updateProductTask.execute();
