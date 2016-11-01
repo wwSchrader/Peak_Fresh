@@ -2,7 +2,6 @@ package com.wwschrader.android.peakfresh.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -10,8 +9,6 @@ import android.support.v7.app.AlertDialog;
 
 import com.wwschrader.android.peakfresh.R;
 import com.wwschrader.android.peakfresh.Utility;
-import com.wwschrader.android.peakfresh.data.ProductColumns;
-import com.wwschrader.android.peakfresh.data.ProductContentProvider;
 
 import java.util.ArrayList;
 
@@ -22,46 +19,37 @@ import java.util.ArrayList;
 public class DeleteCategoryDialogFragment extends DialogFragment {
     private ArrayList<String> categoryArrayList;
     private ArrayList<String> selectedItems;
-    private String[] unusedCategoryrArray;
-    private Cursor mCursor;
+    private ArrayList<String> databaseCategories;
+    private String[] unusedCategoryArray;
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, getContext(), "preference_screen");
 
-        mCursor = getContext().getContentResolver().query(
-                ProductContentProvider.Products.PRODUCTS_URI,
-                null,
-                null,
-                null,
-                null
-        );
+        Bundle extras = getActivity().getIntent().getExtras();
+        databaseCategories = extras.getStringArrayList(this.getString(R.string.database_categories_key));
 
-        if (mCursor != null && mCursor.moveToFirst()){
-            do {
-                String categoryToMatch = mCursor.getString(mCursor.getColumnIndex(ProductColumns.PRODUCT_CATEGORY));
-                for (int i = 0; i < categoryArrayList.size(); i++){
-                    if (categoryArrayList.get(i).equals(categoryToMatch)){
-                        categoryArrayList.remove(i);
-                        break;
-                    }
-                }
-            }while (mCursor.moveToNext());
+        //remove matching categories from arraylist so that only unused categories remain
+        for (int i = 0; i < databaseCategories.size(); i++){
+            if (categoryArrayList.contains(databaseCategories.get(i))){
+                categoryArrayList.remove(categoryArrayList.indexOf(databaseCategories.get(i)));
+            }
         }
 
-        unusedCategoryrArray = new String[categoryArrayList.size()];
-        unusedCategoryrArray = categoryArrayList.toArray(unusedCategoryrArray);
+        unusedCategoryArray = new String[categoryArrayList.size()];
+        unusedCategoryArray = categoryArrayList.toArray(unusedCategoryArray);
         selectedItems = new ArrayList<String>();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.delete_categories_dialog_title)
-            .setMultiChoiceItems(unusedCategoryrArray, null, new DialogInterface.OnMultiChoiceClickListener() {
+            .setMultiChoiceItems(unusedCategoryArray, null, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                     if (b){
-                        selectedItems.add(unusedCategoryrArray[i]);
-                    } else if (selectedItems.contains(unusedCategoryrArray[i])){
-                        selectedItems.remove(unusedCategoryrArray[i]);
+                        selectedItems.add(unusedCategoryArray[i]);
+                    } else if (selectedItems.contains(unusedCategoryArray[i])){
+                        selectedItems.remove(unusedCategoryArray[i]);
                     }
                 }
             })

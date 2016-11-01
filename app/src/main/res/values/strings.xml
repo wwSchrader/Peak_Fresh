@@ -48,4 +48,6 @@
     <string name="title_edit_button">Title Edit Button</string>
     <string name="expiration_date_edit_button">Expiration Date Edit Button</string>
     <string name="sort">Sort</string>
+    <string name="database_categories_key">categories-from-database</string>
+    <string name="no_unused_categories_message">No unused categories!</string>
 </resources>
