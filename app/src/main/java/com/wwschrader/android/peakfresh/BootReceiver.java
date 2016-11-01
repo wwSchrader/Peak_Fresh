@@ -14,7 +14,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //to restart alarm when device is rebooted
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+        if (intent.getAction().equals(context.getString(R.string.boot_completed_string)))
         {
             mAlarmReceiver.setAlarm(context);
         }

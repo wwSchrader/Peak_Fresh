@@ -26,7 +26,7 @@ public class DeleteCategoryDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, getContext(), "preference_screen");
+        categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, getContext(), getString(R.string.setting_screen_tag));
 
         Bundle extras = getActivity().getIntent().getExtras();
         databaseCategories = extras.getStringArrayList(this.getString(R.string.database_categories_key));

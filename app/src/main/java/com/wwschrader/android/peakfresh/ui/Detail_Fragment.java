@@ -148,7 +148,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.setTargetFragment(Detail_Fragment.this, 0);
-                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.date_picker_tag));
             }
         });
         mExpirationSummary = (TextView) rootView.findViewById(R.id.expiration_summary);
@@ -249,7 +249,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
                 Log.e("createImageFile", ex.getMessage());
             }
             if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(mContext, "com.example.android.fileprovider", photoFile);
+                Uri photoUri = FileProvider.getUriForFile(mContext, getString(R.string.uri_for_file), photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -324,7 +324,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
         if (data.moveToFirst() && loader.getId() == LOADER_ID) {
             mProduct_title.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME)));
             mExpirationDate.setText(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE)));
-            mExpirationSummary.setText(Utility.getExpirationDateDescription(data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
+            mExpirationSummary.setText(Utility.getExpirationDateDescription(mContext, data.getString(data.getColumnIndex(ProductColumns.PRODUCT_EXPIRATION_DATE))));
 
 
             try {
@@ -340,7 +340,7 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
             productName = data.getString(data.getColumnIndex(ProductColumns.PRODUCT_NAME));
 
             //setup the view for the category spinner
-            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "detail_screen");
+            ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, getString(R.string.detail_screen_tag));
             categoryArrayAdapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
             //set flag to false since onItemSelected is triggered when first set
             onItemSelectedListenerFlag = false;
@@ -405,11 +405,11 @@ public class Detail_Fragment extends Fragment implements LoaderManager.LoaderCal
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //handle first time trigger of onItemSelected by checking flag for first time trigger
         if (onItemSelectedListenerFlag){
-            if(parent.getItemAtPosition(position).toString().equals("Custom")){
+            if(parent.getItemAtPosition(position).toString().equals(getString(R.string.custom_spinner))){
                 //launch fragment to add new category
                 AddCategoryDialogFragment categoryDialogFragment = new AddCategoryDialogFragment();
                 categoryDialogFragment.setTargetFragment(this, 0);
-                categoryDialogFragment.show(getFragmentManager(), "newCategory");
+                categoryDialogFragment.show(getFragmentManager(), getString(R.string.new_category));
 
             }else {
                 updateProductCategory(parent.getItemAtPosition(position).toString());

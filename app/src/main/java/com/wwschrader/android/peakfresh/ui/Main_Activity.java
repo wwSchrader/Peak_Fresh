@@ -80,7 +80,7 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private void refreshSpinner(){
-        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, this, "main_screen");
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, this, getString(R.string.main_screen_tag));
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
         onItemSelectedListenerFlag = false;

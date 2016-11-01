@@ -178,7 +178,7 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
 
         //switches
         if (s.equals(Main_Activity.CATEGORY_SHARED_PREF_KEY)){
-            mCategory = sharedPreferences.getString(Main_Activity.CATEGORY_SHARED_PREF_KEY, "All");
+            mCategory = sharedPreferences.getString(Main_Activity.CATEGORY_SHARED_PREF_KEY, getString(R.string.category_all));
             getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
         }
     }

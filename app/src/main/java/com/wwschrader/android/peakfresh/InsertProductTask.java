@@ -8,7 +8,6 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.RemoteException;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.wwschrader.android.peakfresh.data.ProductColumns;
@@ -53,20 +52,20 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
             ContentProviderOperation.Builder builder = ContentProviderOperation
                     .newInsert(ProductContentProvider.Products.PRODUCTS_URI);
 
-            builder.withValue(ProductColumns.PRODUCT_NAME, "Broccoli");
-            builder.withValue(ProductColumns.PRODUCT_CATEGORY, "Produce");
-            Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, "Produce");
-            builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "10/13/2016");
+            builder.withValue(ProductColumns.PRODUCT_NAME, mContext.getString(R.string.sample_1_name));
+            builder.withValue(ProductColumns.PRODUCT_CATEGORY, mContext.getString(R.string.sampe_1_category));
+            Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, mContext.getString(R.string.sampe_1_category));
+            builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, mContext.getString(R.string.sample_1_expiration_date));
             builder.withValue(ProductColumns.PRODUCT_ICON,
                     Utility.resourceToUri(mContext, R.drawable.broccoli).toString());
             batchOperations.add(builder.build());
 
             builder = ContentProviderOperation
                     .newInsert(ProductContentProvider.Products.PRODUCTS_URI);
-            builder.withValue(ProductColumns.PRODUCT_NAME, "Milk");
-            builder.withValue(ProductColumns.PRODUCT_CATEGORY, "Dairy");
-            Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, "Dairy");
-            builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, "9/16/2016");
+            builder.withValue(ProductColumns.PRODUCT_NAME, mContext.getString(R.string.sample_2_name));
+            builder.withValue(ProductColumns.PRODUCT_CATEGORY, mContext.getString(R.string.sample_2_category));
+            Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext,mContext.getString(R.string.sample_2_category));
+            builder.withValue(ProductColumns.PRODUCT_EXPIRATION_DATE, mContext.getString(R.string.sample_2_expiration_date));
             builder.withValue(ProductColumns.PRODUCT_ICON,
                     Utility.resourceToUri(mContext, R.drawable.milk).toString());
             batchOperations.add(builder.build());
@@ -105,7 +104,7 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         if (addKey.equals(NewProduct_Activity.ADD_PRODUCT_KEY)){
             //display toast confirming that product was added then finish the activity
-            Toast.makeText(mContext, "Product Added!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.product_added_toast, Toast.LENGTH_SHORT).show();
             mActivity.finish();
         }
     }
@@ -114,7 +113,6 @@ public class InsertProductTask extends AsyncTask<String, Void, Void> {
 
         Intent dataUpdatedIntent = new Intent(WidgetAppProvider.WIDGET_PRODUCT_UPDATE)
                 .setPackage(mContext.getPackageName());
-        Log.v("Update widget", dataUpdatedIntent.getAction());
         mContext.sendBroadcast(dataUpdatedIntent);
     }
 }

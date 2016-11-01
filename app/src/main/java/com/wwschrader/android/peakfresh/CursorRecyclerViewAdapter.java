@@ -19,10 +19,11 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
     private boolean dataIsValid;
     private int rowIdColumn;
     private DataSetObserver mDataSetObserver;
+    String columnId = "_id";
     public CursorRecyclerViewAdapter(Context context, Cursor cursor){
         mCursor = cursor;
         dataIsValid = cursor != null;
-        rowIdColumn = dataIsValid ? mCursor.getColumnIndex("_id") : -1;
+        rowIdColumn = dataIsValid ? mCursor.getColumnIndex(columnId) : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
         if (dataIsValid){
             mCursor.registerDataSetObserver(mDataSetObserver);

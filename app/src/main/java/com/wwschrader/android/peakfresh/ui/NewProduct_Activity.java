@@ -125,14 +125,14 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                newFragment.show(getSupportFragmentManager(), getString(R.string.date_picker_tag));
             }
         });
         newProductExpirationDateTextView = (TextView) findViewById(R.id.new_product_expiration_date_activity);
 
         mCategorySpinner = (Spinner) findViewById(R.id.new_product_category_spinner);
         //setup the view for the category spinner
-        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "add_screen");
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, getString(R.string.add_screen_tag));
         ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
         onItemSelectedListenerFlag = false;
@@ -240,7 +240,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
                 Log.e("createImageFile", ex.getMessage());
             }
             if (photoFile != null) {
-                Uri photoUri = FileProvider.getUriForFile(mContext, "com.example.android.fileprovider", photoFile);
+                Uri photoUri = FileProvider.getUriForFile(mContext, getString(R.string.uri_for_file), photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -331,7 +331,7 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
     public void onDialogPositiveClick(String category) {
         mCategory = category;
         Utility.addItemToCategoryArray(Utility.CATEGORY_ARRAY, mContext, category);
-        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, "add_screen");
+        ArrayList<String> categoryArrayList = Utility.loadCategoryArray(Utility.CATEGORY_ARRAY, mContext, getString(R.string.add_screen_tag));
         ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.category_spinner_item, categoryArrayList);
         //set flag to false since onItemSelected is triggered when first set
         onItemSelectedListenerFlag = false;
@@ -339,12 +339,12 @@ public class NewProduct_Activity extends AppCompatActivity implements DatePicker
         mCategorySpinner.setAdapter(adapter);
         mCategorySpinner.setSelection(adapter.getPosition(category));
         mCategorySpinner.setOnItemSelectedListener(this);
-        Toast.makeText(mContext, "Category Added!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.category_added), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDialogNegativeClick() {
         mCategorySpinner.setSelection(spinnerSelection);
-        Toast.makeText(mContext, "Action Canceled", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.action_canceled), Toast.LENGTH_SHORT).show();
     }
 }
