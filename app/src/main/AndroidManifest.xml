@@ -47,7 +47,7 @@
         </activity>
 
         <activity android:name=".ui.SettingsActivity"
-                  android:label="Settings"
+                  android:label="@string/settings_title"
                   android:parentActivityName=".ui.Main_Activity"
                   android:theme="@style/SettingsTheme">
             <meta-data
@@ -56,7 +56,7 @@
         </activity>
 
         <activity android:name=".ui.DeleteCategoryDialogActivity"
-                  android:label="Delete Categories"
+                  android:label="@string/delete_categories_label"
                   android:parentActivityName=".ui.SettingsActivity">
 
         </activity>
