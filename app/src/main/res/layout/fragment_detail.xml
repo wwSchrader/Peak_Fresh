@@ -119,6 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:contentDescription="@string/add_to_calendar"
         android:layout_gravity="bottom|end"/>
 
 </LinearLayout>

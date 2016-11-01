@@ -96,4 +96,6 @@
     <string name="file_provider_uri">com.example.android.fileprovider</string>
     <string name="you_have">"You have "</string>
     <string name="expiring_on">" products expiring on "</string>
+    <string name="add_to_calendar">Add to Calendar</string>
+    <string name="add_new_product">Add new product</string>
 </resources>
