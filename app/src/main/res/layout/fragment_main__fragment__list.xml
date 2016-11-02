@@ -19,23 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-
-    </com.google.android.gms.ads.AdView>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:src="@mipmap/plus_symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/add_new_product"
         android:layout_gravity="bottom|end"

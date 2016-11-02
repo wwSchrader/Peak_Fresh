@@ -15,10 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.wwschrader.android.peakfresh.R;
 import com.wwschrader.android.peakfresh.Utility;
-import com.google.android.gms.ads.MobileAds;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -43,9 +42,6 @@ public class Main_Activity extends AppCompatActivity implements AdapterView.OnIt
             requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         }
         setContentView(R.layout.activity_main);
-
-        //initialize Google Mobile ads
-        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
 
         //obtain firebaseAnayltics instance
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);

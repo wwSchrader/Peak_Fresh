@@ -29,8 +29,6 @@ import com.wwschrader.android.peakfresh.RecyclerViewItemClickListener;
 import com.wwschrader.android.peakfresh.data.ProductColumns;
 import com.wwschrader.android.peakfresh.data.ProductContentProvider;
 import com.wwschrader.android.peakfresh.touch_helper.ProductTouchHelperCallback;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -120,11 +118,6 @@ public class Main_Fragment_List extends Fragment implements LoaderManager.Loader
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         emptyTextViewMessage= (TextView) getActivity().findViewById(R.id.empty_view_text);
-
-        //load banner ad
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
