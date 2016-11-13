@@ -32,13 +32,15 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-
+        //set alarm to fire tomorrow
+        calendar.roll(Calendar.DAY_OF_YEAR, 1);
         //set alarm to fire at 9am
         calendar.set(Calendar.HOUR_OF_DAY, 9);
         calendar.set(Calendar.MINUTE, 0);
 
         //repeat alarm once a day
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, alarmIntent);
+        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
         ComponentName alarmReceiver = new ComponentName(context, BootReceiver.class);
         PackageManager pm = context.getPackageManager();
 

@@ -76,7 +76,7 @@ public class NotificationService extends IntentService {
             mBuilder = new NotificationCompat.Builder(this)
                     .setContentTitle(getString(R.string.notification_title))
                     .setContentText(getString(R.string.you_have) + numMessage + getString(R.string.expiring_on))
-                    .setSmallIcon(R.mipmap.ic_launcher);
+                    .setSmallIcon(R.mipmap.ic_main_icon);
 
             //intent and pending intent to launch main activity when notification is selected
             Intent resultIntent = new Intent(this, Main_Activity.class);
